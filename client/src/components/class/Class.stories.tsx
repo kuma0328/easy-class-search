@@ -24,6 +24,6 @@ export const Primary: Story = {
     rankC : 10,
     rankD : 10,
     rankE : 10,
-    rankF : 10,
+    rankF : 9,
   }
 };
