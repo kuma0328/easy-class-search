@@ -15,9 +15,12 @@ interface ClassProps {
   rankD : number;
   rankE : number;
   rankF : number;
+  onClick : () => void;
 }
 
-export const Class = ({subjectName, subjectCode, teacherName, season, place, classTime, rankA, rankB, rankC, rankD, rankE, rankF} : ClassProps) => {
+
+
+export const Class = ({subjectName, subjectCode, teacherName, season, place, classTime, rankA, rankB, rankC, rankD, rankE, rankF, onClick} : ClassProps) => {
   return (
     <>
     <div className='flex justify-between'>
@@ -41,7 +44,7 @@ export const Class = ({subjectName, subjectCode, teacherName, season, place, cla
             <div className='pr-2'>C:{rankC}</div>
             <div className='pr-2'>D:{rankD}</div>
             <div className='pr-2'>E:{rankE}</div> 
-            <LaunchIcon></LaunchIcon>
+            <div onClick={onClick}><LaunchIcon></LaunchIcon></div>
           </div>
         </div>
       </div>

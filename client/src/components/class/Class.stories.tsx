@@ -10,6 +10,9 @@ export default meta
 
 type Story = StoryObj<typeof Class>
 
+const onClick = () => {
+  window.alert("button click");
+}
 
 export const Primary: Story = {
   args: {
@@ -25,5 +28,6 @@ export const Primary: Story = {
     rankD : 10,
     rankE : 10,
     rankF : 9,
+    onClick : onClick,
   }
 };
