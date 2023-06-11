@@ -36,6 +36,6 @@ const classInfo : TClass = {
 export const Primary: Story = {
   args: {
     classInfo : classInfo,
-    onClick : onClick,
+    // onClick : onClick,
   }
 };

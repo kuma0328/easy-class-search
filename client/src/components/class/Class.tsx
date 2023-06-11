@@ -6,15 +6,15 @@ import LaunchIcon from '@mui/icons-material/Launch';
 
 interface ClassProps {
   classInfo : TClass
-  onClick : () => void;
+  // onClick : () => void;
 }
 
 
 
-export const Class = ({classInfo,  onClick} : ClassProps) => {
+export const Class = ({classInfo} : ClassProps) => {
   return (
     <>
-    <div className='flex justify-between border-solid border-black'>
+      <div className='flex justify-between border border-black mt-2'>
         <div className='flex flex-col'>
           <div className='text-gray-400'>{classInfo.subjectCode}</div>
           <div className='text-2xl pt-2'>{classInfo.subjectName}</div>
@@ -35,7 +35,7 @@ export const Class = ({classInfo,  onClick} : ClassProps) => {
             <div className='pr-2'>C:{classInfo.rankC}</div>
             <div className='pr-2'>D:{classInfo.rankD}</div>
             <div className='pr-2'>E:{classInfo.rankE}</div> 
-            <div onClick={onClick}><LaunchIcon></LaunchIcon></div>
+            <div><LaunchIcon></LaunchIcon></div>
           </div>
         </div>
       </div>
