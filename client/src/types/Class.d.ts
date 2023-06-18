@@ -27,4 +27,4 @@ interface TClass {
   rankF: number;
 }
 
-export default TClass
+export default TClass;
