@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "lint:prettier": "prettier --check src",
+    "fix:prettier": "prettier --write src"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -38,6 +40,7 @@
     "@storybook/react": "^7.0.18",
     "@storybook/testing-library": "^0.0.14-next.2",
     "eslint-plugin-storybook": "^0.6.12",
+    "prettier": "2.8.8",
     "storybook": "^7.0.18"
   }
 }
