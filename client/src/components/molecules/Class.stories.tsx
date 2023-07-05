@@ -23,12 +23,13 @@ const classInfo: TClass = {
   season: "春",
   place: "今出川",
   classTime: "水曜1限",
-  rankA: 32,
-  rankB: 10,
-  rankC: 10,
-  rankD: 10,
-  rankE: 10,
-  rankF: 9,
+  rank: {
+    A: 32,
+    B: 10,
+    C: 10,
+    D: 10,
+    F: 9,
+  },
 };
 
 export const Primary: Story = {

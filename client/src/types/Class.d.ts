@@ -1,17 +1,3 @@
-// export type TClass = {
-//   subjectName : string;
-//   subjectCode : string;
-//   teacherName : string;
-//   season : string;
-//   place : string;
-//   classTime: string;
-//   rankA : number;
-//   rankB : number;
-//   rankC : number;
-//   rankD : number;
-//   rankE : number;
-//   rankF : number;
-// };
 interface TClass {
   subjectName: string;
   subjectCode: string;
@@ -19,12 +5,15 @@ interface TClass {
   season: string;
   place: string;
   classTime: string;
-  rankA: number;
-  rankB: number;
-  rankC: number;
-  rankD: number;
-  rankE: number;
-  rankF: number;
+  rank: TRank;
+}
+
+interface TRank {
+  A: number;
+  B: number;
+  C: number;
+  D: number;
+  F: number;
 }
 
 export default TClass;
