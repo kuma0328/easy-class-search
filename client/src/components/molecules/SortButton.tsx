@@ -32,7 +32,7 @@ export const SortButton = ({}: SortButtonProps) => {
             <div
               key={value}
               onClick={() => selectText(value)}
-              className="hover:bg-gray-300 block text-gray-500"
+              className="hover:bg-gray-300 block text-gray-500 p-1"
             >
               <span>{value}</span>
             </div>
