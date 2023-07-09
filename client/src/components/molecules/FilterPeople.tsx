@@ -48,7 +48,7 @@ export const FilterPeople = ({}: FilterPeopleProps) => {
       />
       {isOpen ? (
         <>
-          <div className="mt-1 bg-gray-200 p-5 rounded-md">
+          <div className="mt-1 bg-gray-50 p-5 rounded-md">
             <Slider
               getAriaLabel={() => "Temperature range"}
               value={value}
