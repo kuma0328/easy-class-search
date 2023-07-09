@@ -1,25 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import FilterTimeTable from "../molecules/FilterTimeTable";
+import FilterTitle from "../atoms/FilterTitle";
 
 interface TimeTableListProps {}
 
 export const TimeTableList = ({}: TimeTableListProps) => {
-  const daysOfWeek = [
-    "月曜日",
-    "火曜日",
-    "水曜日",
-    "木曜日",
-    "金曜日",
-    "土曜日",
-    "日曜日",
-  ];
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const noSelect: string = "未実装";
+  const [select, setSelect] = useState<string>(noSelect);
+  const onClickOpen = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const daysOfWeek = ["月", "火", "水", "木", "金", "土"];
   return (
     <>
-      <div className="flex flex-row">
-        {daysOfWeek.map((day) => (
-          <FilterTimeTable day={day} key={day} />
-        ))}
-      </div>
+      <FilterTitle
+        title="曜日絞り込み"
+        isOpen={isOpen}
+        onClickOpen={onClickOpen}
+        selectName={select}
+      />
+      {isOpen ? (
+        <div className="flex flex-row mt-1 justify-center bg-gray-100 border border-gray-300 p-5 rounded-lg">
+          {daysOfWeek.map((day) => (
+            <FilterTimeTable day={day} key={day} />
+          ))}
+        </div>
+      ) : null}
     </>
   );
 };

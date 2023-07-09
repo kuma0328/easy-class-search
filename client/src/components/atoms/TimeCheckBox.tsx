@@ -14,7 +14,7 @@ export const TimeCheckBox = ({ text }: TimeCheckBoxProps) => {
   return (
     <>
       <div
-        className={`w-16 h-16 flex items-center justify-center border ${
+        className={` h-16 flex items-center justify-center border ${
           isClick ? "bg-gray-500" : "bg-gray-300 hover:bg-gray-400"
         }`}
         onClick={onClick}
