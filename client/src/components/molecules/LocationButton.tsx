@@ -1,19 +1,19 @@
 import React, { useState } from "react";
-import ImportExportIcon from "@mui/icons-material/ImportExport";
-interface SortButtonProps {}
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+interface LocationButtonProps {}
 
-export const SortButton = ({}: SortButtonProps) => {
-  const [sortText, setSortText] = useState<string>("F率昇順");
+export const LocationButton = ({}: LocationButtonProps) => {
+  const [locationText, setLocationText] = useState<string>("全て");
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const sortList: string[] = ["F率昇順", "F率降順", "A率昇順", "A率降順"];
+  const locationList: string[] = ["全て", "今出川", "京田辺", "オンライン"];
 
   const onClickOpen = () => {
     setIsOpen(!isOpen);
   };
 
   const selectText = (text: string) => {
-    setSortText(text);
+    setLocationText(text);
     setIsOpen(false);
   };
 
@@ -24,14 +24,14 @@ export const SortButton = ({}: SortButtonProps) => {
           onClick={onClickOpen}
           className="p-1 rounded-md hover:bg-purple-100"
         >
-          <ImportExportIcon color="secondary" />
+          <LocationOnIcon color="secondary" />
           <span className="px-2 text-purple-500 flex justify-center">
-            {sortText}
+            {locationText}
           </span>
         </button>
         {isOpen ? (
           <div className="bg-gray-100 border border-gray-300 mt-1 rounded-lg text-sm text-gray-900 p-2.5 w-fit absolute">
-            {sortList.map((value) => (
+            {locationList.map((value) => (
               <div
                 key={value}
                 onClick={() => selectText(value)}
@@ -47,4 +47,4 @@ export const SortButton = ({}: SortButtonProps) => {
   );
 };
 
-export default SortButton;
+export default LocationButton;

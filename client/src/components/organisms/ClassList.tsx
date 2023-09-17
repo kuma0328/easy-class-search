@@ -11,10 +11,12 @@ interface ClassListProps {
 export const ClassList = ({ classList }: ClassListProps) => {
   return (
     <>
-      <div className="grid grid-cols-3 gap-5">
-        {classList.map((classInfo) => (
-          <Class key={classInfo.subjectCode} classInfo={classInfo} />
-        ))}
+      <div className=" bg-gray-100 rounded-lg p-5">
+        <div className="grid grid-cols-3 gap-5">
+          {classList.map((classInfo) => (
+            <Class key={classInfo.subjectCode} classInfo={classInfo} />
+          ))}
+        </div>
       </div>
     </>
   );

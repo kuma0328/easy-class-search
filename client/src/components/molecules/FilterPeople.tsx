@@ -1,24 +1,6 @@
 import { Slider } from "@mui/material";
 import React, { useState } from "react";
 import FilterTitle from "../atoms/FilterTitle";
-import { createTheme } from "@mui/material/styles";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      light: "#757ce8",
-      main: "#3f50b5",
-      dark: "#002884",
-      contrastText: "#fff",
-    },
-    secondary: {
-      light: "#ff7961",
-      main: "#f44336",
-      dark: "#ba000d",
-      contrastText: "#000",
-    },
-  },
-});
 
 interface FilterPeopleProps {}
 const valuetext = (value: number): string => {
@@ -41,7 +23,7 @@ export const FilterPeople = ({}: FilterPeopleProps) => {
   return (
     <>
       <FilterTitle
-        title="人数絞り込み"
+        title="人数"
         isOpen={isOpen}
         onClickOpen={onClickOpen}
         selectName={select}

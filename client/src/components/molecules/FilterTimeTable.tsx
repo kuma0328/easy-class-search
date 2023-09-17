@@ -18,8 +18,8 @@ export const FilterTimeTable = ({ day }: FilterTimeTableProps) => {
 
   return (
     <>
-      <div className="flex flex-col">
-        <span className="w-16 h-8 bg-gray-400 flex items-center justify-center border">
+      <div className="flex flex-col w-1/6">
+        <span className="h-16 bg-gray-400 flex items-center justify-center border">
           {day}
         </span>
         {lectureTime.map((time) => (
