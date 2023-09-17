@@ -7,7 +7,6 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 interface ClassProps {
   classInfo: TClass;
-  // onClick : () => void;
 }
 
 export const Class = ({ classInfo }: ClassProps) => {
@@ -15,7 +14,7 @@ export const Class = ({ classInfo }: ClassProps) => {
   const rank = "評価 :";
   return (
     <>
-      <div className="justify-between mt-2 max-w-lg border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden p-5">
+      <div className="justify-between mt-2 max-w-lg border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden p-5 bg-white">
         <div className="flex flex-col">
           <div className="flex flex-row">
             <span className="text-2xl">{classInfo.subjectName}</span>

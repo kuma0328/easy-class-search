@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import FilterTitle from "../atoms/FilterTitle";
-import FilterList from "../atoms/FilterList";
+import FilterList from "./FilterList";
 
 interface FilterButtonProps {
   selectName: string;

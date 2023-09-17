@@ -18,7 +18,7 @@ export const FilterList = ({
           {selectList.map((option) => (
             <div
               key={option.value}
-              className="hover:bg-gray-300 block"
+              className="hover:bg-purple-200 block"
               onClick={() => onClickSelect(option.name)}
             >
               {option.name}

@@ -23,7 +23,7 @@ export const FilterPeople = ({}: FilterPeopleProps) => {
   return (
     <>
       <FilterTitle
-        title="人数絞り込み"
+        title="人数"
         isOpen={isOpen}
         onClickOpen={onClickOpen}
         selectName={select}

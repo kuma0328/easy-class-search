@@ -1,9 +1,9 @@
 import React from "react";
 import FilterButton from "../molecules/FilterButton";
 import FilterPeople from "../molecules/FilterPeople";
-import TimeTableList from "../organisms/TimeTableList";
+import TimeTableList from "./TimeTableList";
 
-interface FilterPageProps {}
+interface FilterClassProps {}
 const departmentList: TSelect[] = [
   {
     name: "法学部",
@@ -18,10 +18,10 @@ const departmentList: TSelect[] = [
     value: "economics",
   },
 ];
-export const FilterPage = ({}: FilterPageProps) => {
+export const FilterClass = ({}: FilterClassProps) => {
   return (
     <>
-      <div>
+      <div className=" bg-purple-100 p-5 rounded-lg">
         <div className="m-2">
           <FilterButton selectName="学部" selectList={departmentList} />
         </div>
@@ -36,4 +36,4 @@ export const FilterPage = ({}: FilterPageProps) => {
   );
 };
 
-export default FilterPage;
+export default FilterClass;

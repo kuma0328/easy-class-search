@@ -16,7 +16,7 @@ export const TimeTableList = ({}: TimeTableListProps) => {
   return (
     <>
       <FilterTitle
-        title="曜日絞り込み"
+        title="曜日"
         isOpen={isOpen}
         onClickOpen={onClickOpen}
         selectName={select}

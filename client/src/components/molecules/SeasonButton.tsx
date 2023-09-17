@@ -1,19 +1,20 @@
 import React, { useState } from "react";
-import ImportExportIcon from "@mui/icons-material/ImportExport";
-interface SortButtonProps {}
 
-export const SortButton = ({}: SortButtonProps) => {
-  const [sortText, setSortText] = useState<string>("F率昇順");
+import DateRangeIcon from "@mui/icons-material/DateRange";
+interface SeasonButtonProps {}
+
+export const SeasonButton = ({}: SeasonButtonProps) => {
+  const [seasonText, setSeasonText] = useState<string>("全て");
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const sortList: string[] = ["F率昇順", "F率降順", "A率昇順", "A率降順"];
+  const seasonList: string[] = ["全て", "春", "秋"];
 
   const onClickOpen = () => {
     setIsOpen(!isOpen);
   };
 
   const selectText = (text: string) => {
-    setSortText(text);
+    setSeasonText(text);
     setIsOpen(false);
   };
 
@@ -24,14 +25,14 @@ export const SortButton = ({}: SortButtonProps) => {
           onClick={onClickOpen}
           className="p-1 rounded-md hover:bg-purple-100"
         >
-          <ImportExportIcon color="secondary" />
+          <DateRangeIcon color="secondary" />
           <span className="px-2 text-purple-500 flex justify-center">
-            {sortText}
+            {seasonText}
           </span>
         </button>
         {isOpen ? (
           <div className="bg-gray-100 border border-gray-300 mt-1 rounded-lg text-sm text-gray-900 p-2.5 w-fit absolute">
-            {sortList.map((value) => (
+            {seasonList.map((value) => (
               <div
                 key={value}
                 onClick={() => selectText(value)}
@@ -47,4 +48,4 @@ export const SortButton = ({}: SortButtonProps) => {
   );
 };
 
-export default SortButton;
+export default SeasonButton;
