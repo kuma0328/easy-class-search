@@ -3,9 +3,14 @@ services:
   my-golang-app:
     build: 
       context: ./src
-      dockerfile: Dockerfile
+      dockerfile: ./Dockerfile
     ports:
-      - "8080:8082"
+      - "8080:8080"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    depends_on:
+      - db
   db:
     build: 
       context: .
@@ -13,10 +18,9 @@ services:
     tty: true
     restart: always
     ports:
-      - 5430:5432
+      - 5432:5432
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
     volumes:
       - ./db/initdb.d:/docker-entrypoint-initdb.d
-    
