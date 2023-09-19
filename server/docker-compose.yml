@@ -1,17 +1,21 @@
 version: '3'
 services:
-  my-golang-app:
+  app:
     build: 
       context: ./src
-      dockerfile: ./Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=root
+      - POSTGRES_ADDR=5432
+      - POSTGRES_HOST=postgres
+      - PORT=8080
     depends_on:
-      - db
-  db:
+      - postgres
+  postgres:
     build: 
       context: .
       dockerfile: ./db/Dockerfile

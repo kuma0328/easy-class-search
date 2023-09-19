@@ -19,6 +19,7 @@ type DBInfo struct {
 	DBPassWord string
 	DBAddr     string
 	DBName     string
+	DBHost     string
 }
 
 func LoadConfig() *appConfig {
@@ -31,7 +32,8 @@ func LoadConfig() *appConfig {
 	dbUser := os.Getenv("POSTGRES_USER")
 	dbPassWord := os.Getenv("POSTGRES_PASSWORD")
 	dbAddr := os.Getenv("POSTGRES_ADDR")
-	dbName := os.Getenv("POSTGRES_DATABASE")
+	dbName := os.Getenv("POSTGRES_DB")
+	dbHost := os.Getenv("POSTGRES_HOST")
 
 	fmt.Println(dbUser, dbPassWord, dbAddr, dbName)
 	dbInfo := &DBInfo{
@@ -39,6 +41,7 @@ func LoadConfig() *appConfig {
 		DBPassWord: dbPassWord,
 		DBAddr:     dbAddr,
 		DBName:     dbName,
+		DBHost:     dbHost,
 	}
 
 	conf := appConfig{
