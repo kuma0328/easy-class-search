@@ -18,7 +18,7 @@ func InitRouter() {
 	defer db.Close()
 
 	addr := c.HTTTPInfo.Addr
-
+	fmt.Println("Server Listening", addr)
 	if err := http.ListenAndServe(addr, nil); err != nil {
 		fmt.Println("Server Error:", err.Error())
 	}
