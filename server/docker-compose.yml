@@ -4,8 +4,12 @@ services:
     build: 
       context: ./src
       dockerfile: Dockerfile
+    volumes:
+      - ./src:/src
+    restart: always
     ports:
       - "8080:8080"
+    command: ["sh", "-c", "cd /src && air"]
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root

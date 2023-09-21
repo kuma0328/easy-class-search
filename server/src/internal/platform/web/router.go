@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/kuma0328/easy-class-search/config"
+	"github.com/kuma0328/easy-class-search/internal/app/handler"
 	"github.com/kuma0328/easy-class-search/internal/platform/database"
 )
 
@@ -17,9 +18,15 @@ func InitRouter() {
 	}
 	defer db.Close()
 
+	newRouter()
+
 	addr := c.HTTTPInfo.Addr
 	fmt.Println("Server Listening", addr)
 	if err := http.ListenAndServe(addr, nil); err != nil {
 		fmt.Println("Server Error:", err.Error())
 	}
+}
+
+func newRouter() {
+	http.HandleFunc("/health", handler.HealthHandler)
 }
