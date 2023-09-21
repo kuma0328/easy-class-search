@@ -1,16 +1,18 @@
 FROM golang:1.21.1-alpine
 
-WORKDIR /src
+# WORKDIR /src
 
-COPY go.mod ./
-COPY go.sum ./
+# COPY go.mod ./
+# COPY go.sum ./
 
-RUN go mod download
+# RUN go mod download
 
-COPY ./ ./
+RUN go install github.com/cosmtrek/air@latest
 
-RUN go build -o /main
+# COPY ./ ./
 
-EXPOSE 8080
+# RUN go build -o /main
 
-CMD [ "/main" ]
+# EXPOSE 8080
+
+# CMD [ "/main" ]
