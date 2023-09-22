@@ -1,6 +1,7 @@
 package web
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
 
@@ -18,7 +19,7 @@ func InitRouter() {
 	}
 	defer db.Close()
 
-	newRouter()
+	newRouter(db)
 
 	addr := c.HTTTPInfo.Addr
 	fmt.Println("Server Listening", addr)
@@ -27,6 +28,13 @@ func InitRouter() {
 	}
 }
 
-func newRouter() {
+func withDBHandler(handler func(http.ResponseWriter, *http.Request, *sql.DB), db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		handler(w, r, db)
+	}
+}
+
+func newRouter(db *sql.DB) {
 	http.HandleFunc("/health", handler.HealthHandler)
+	http.HandleFunc("/course", handler.GetAllCourseHandler(db))
 }
