@@ -1,7 +1,7 @@
 -- "courses" テーブルの作成
 CREATE TABLE IF NOT EXISTS course (
-  subject_code TEXT NOT NULL PRIMARY KEY,
-  department TEXT NOT NULL
+  code TEXT NOT NULL PRIMARY KEY,
+  major TEXT NOT NULL
 );
 
 -- "courses-info" テーブルの作成
@@ -19,11 +19,11 @@ CREATE TABLE IF NOT EXISTS course_info (
 -- "courses-list" テーブルの作成
 CREATE TABLE IF NOT EXISTS course_list (
   course_id UUID NOT NULL PRIMARY KEY,
-  subject_code TEXT NOT NULL,
+  code TEXT NOT NULL,
   year INT,
   season TEXT,
   teacher TEXT,
   course_url TEXT,
-  FOREIGN KEY (subject_code) REFERENCES course(subject_code),
+  FOREIGN KEY (code) REFERENCES course(code),
   FOREIGN KEY (course_id) REFERENCES course_info(course_id)
 );
