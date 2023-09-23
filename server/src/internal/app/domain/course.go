@@ -4,13 +4,11 @@ import "context"
 
 type Course struct {
 	Code  string
-	Major string
 }
 
-func NewCourse(code string, major string) *Course {
+func NewCourse(code string) *Course {
 	return &Course{
 		Code:  code,
-		Major: major,
 	}
 }
 

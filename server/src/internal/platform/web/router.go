@@ -37,4 +37,5 @@ func withDBHandler(handler func(http.ResponseWriter, *http.Request, *sql.DB), db
 func newRouter(db *sql.DB) {
 	http.HandleFunc("/health", handler.HealthHandler)
 	http.HandleFunc("/course", handler.GetAllCourseHandler(db))
+	http.HandleFunc("/course_info", handler.GetCourseInfoListWithFliter(db))
 }

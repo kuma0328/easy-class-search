@@ -16,7 +16,7 @@ func NewCourseRepository(conn *sql.DB) domain.CourseRepository {
 }
 
 func (cr *courseRepository) GetAll(ctx context.Context) ([]*domain.Course, error) {
-	query := `SELECT code, major FROM course;`
+	query := `SELECT code FROM course`
 	rows, err := cr.Conn.Query(query)
 	if err != nil {
 		return nil, err
@@ -27,7 +27,7 @@ func (cr *courseRepository) GetAll(ctx context.Context) ([]*domain.Course, error
 
 	for rows.Next() {
 		var course domain.Course
-		if err := rows.Scan(&course.Code, &course.Major); err != nil {
+		if err := rows.Scan(&course.Code); err != nil {
 			return nil, err
 		}
 
