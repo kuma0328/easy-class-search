@@ -12,8 +12,7 @@ import (
 )
 
 type courseResponse struct {
-	Code  string `json:"code"`
-	Major string `json:"major"`
+	Code string `json:"code"`
 }
 
 func newGetAllCourseResponse(cr []*domain.Course) []*courseResponse {
@@ -26,8 +25,7 @@ func newGetAllCourseResponse(cr []*domain.Course) []*courseResponse {
 
 func newCourseResponse(c *domain.Course) *courseResponse {
 	return &courseResponse{
-		Code:  c.Code,
-		Major: c.Major,
+		Code: c.Code,
 	}
 }
 
