@@ -5,8 +5,10 @@ import "context"
 type CourseInfo struct {
 	CourseID    string
 	Code        string
-	Teacher     string
+	Title       string
 	People      int
+	Place       string
+	CourseTime  string
 	Major       string
 	Year        int
 	Season      string
@@ -19,12 +21,14 @@ type CourseInfo struct {
 	RateAverage float64
 }
 
-func NewCourseInfo(courseID, code, teacher string, people int, major string, year int, season, courseURL string, rateA, rateB, rateC, rateD, rateF, rateAverage float64) *CourseInfo {
+func NewCourseInfo(courseID, code, title string, people int, place string, courseTime, string, major string, year int, season, courseURL string, rateA, rateB, rateC, rateD, rateF, rateAverage float64) *CourseInfo {
 	return &CourseInfo{
 		CourseID:    courseID,
 		Code:        code,
-		Teacher:     teacher,
+		Title:       title,
 		People:      people,
+		Place:       place,
+		CourseTime:  courseTime,
 		Major:       major,
 		Year:        year,
 		Season:      season,
