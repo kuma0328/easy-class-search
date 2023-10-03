@@ -4,6 +4,7 @@ import TCourseInfo from "src/types/Course";
 
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { Link } from "react-router-dom";
 interface CourseProps {
   courseInfo: TCourseInfo;
 }
@@ -66,6 +67,7 @@ export const Course = ({ courseInfo }: CourseProps) => {
               </tr>
             </tbody>
           </table>
+          <Link to={`/course/${courseInfo.course_id}`}>aaa</Link>
         </div>
       </div>
     </>
