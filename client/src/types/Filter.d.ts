@@ -1,6 +1,6 @@
-interface TFilter {
+interface TFliter {
   value: string;
   text: string;
 }
 
-export default TFilter;
+export default TFliter;
