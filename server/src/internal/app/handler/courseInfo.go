@@ -81,7 +81,6 @@ func corsSetCourseInfo(w http.ResponseWriter) {
 }
 
 func GetCourseInfoListWithFliter(db *sql.DB) http.HandlerFunc {
-
 	repoCourseInfo := repository.NewCourseInfoRepository(db)
 	ucCourseInfo := usecase.NewCourseInfoUsecase(repoCourseInfo)
 

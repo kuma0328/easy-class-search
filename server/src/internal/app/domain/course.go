@@ -3,12 +3,12 @@ package domain
 import "context"
 
 type Course struct {
-	Code  string
+	Code string
 }
 
 func NewCourse(code string) *Course {
 	return &Course{
-		Code:  code,
+		Code: code,
 	}
 }
 

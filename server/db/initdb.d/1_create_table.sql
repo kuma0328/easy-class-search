@@ -30,3 +30,12 @@ CREATE TABLE IF NOT EXISTS teacher_list (
   course_id UUID NOT NULL,
   FOREIGN KEY (course_id) REFERENCES course_info(course_id)
 );
+
+-- "cousre_syllabus" テーブルの作成
+CREATE TABLE IF NOT EXISTS syllabus_list (
+  syllabus_id UUID NOT NULL PRIMARY KEY,
+  code TEXT NOT NULL,
+  syllabus TEXT NOT NULL,
+  year INT,
+  FOREIGN KEY (code) REFERENCES courses(code)
+)
