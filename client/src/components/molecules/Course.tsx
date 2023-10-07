@@ -67,7 +67,7 @@ export const Course = ({ courseInfo }: CourseProps) => {
               </tr>
             </tbody>
           </table>
-          <Link to={`/course/${courseInfo.course_id}`}>aaa</Link>
+          <Link to={`/course/${courseInfo.code}`}>aaa</Link>
         </div>
       </div>
     </>
