@@ -2,7 +2,6 @@ import { useState } from "react";
 import { getCourseInfoPosts } from "src/api/post";
 import TCourseInfo from "src/types/Course";
 import CourseList from "../organisms/CourseList";
-import MajorFilter from "../organisms/MajorFilter";
 
 export const Top = () => {
   const [courseInfoData, setCourseInfoData] = useState<TCourseInfo[]>([]);
