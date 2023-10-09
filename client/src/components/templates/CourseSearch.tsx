@@ -12,8 +12,8 @@ interface CourseSearchProps {
 export const CourseSearch = ({ courseList, genreList }: CourseSearchProps) => {
   return (
     <>
-      <div className="flex flex-row">
-        <SelectGenreBarList genreList={genreList} />
+      <TitleBar />
+      <div className="flex">
         <CourseList courseList={courseList} />
       </div>
     </>
