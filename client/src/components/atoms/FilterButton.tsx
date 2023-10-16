@@ -1,11 +1,13 @@
 import React from "react";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-interface FilterButtonProps {}
+interface FilterButtonProps {
+  onFilterClick: () => void;
+}
 
-export const FilterButton = ({}: FilterButtonProps) => {
+export const FilterButton = ({ onFilterClick }: FilterButtonProps) => {
   return (
     <>
-      <button className="border p-3 rounded-full">
+      <button className="border p-3 rounded-full" onClick={onFilterClick}>
         <FilterAltIcon />
         <span>絞り込み</span>
       </button>

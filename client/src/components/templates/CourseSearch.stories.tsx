@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import TCourseInfo from "src/types/Course";
 import CourseSearch from "./CourseSearch";
+import TCourseInfo from "src/types/Course";
 
 const meta: Meta<typeof CourseSearch> = {
   title: "CourseSearch",
@@ -11,6 +11,7 @@ export default meta;
 
 type Story = StoryObj<typeof CourseSearch>;
 
+const genreList: string[] = ["学部", "年度", "人数", "場所", "季節"];
 const courseList: TCourseInfo[] = [
   {
     code: "CS101",
@@ -30,6 +31,7 @@ const courseList: TCourseInfo[] = [
     season: "Fall",
     teacher: "Prof. Smith",
     year: 2023,
+    credit: 2,
   },
   {
     code: "MATH202",
@@ -49,6 +51,7 @@ const courseList: TCourseInfo[] = [
     season: "Spring",
     teacher: "Prof. Johnson",
     year: 2023,
+    credit: 2,
   },
   {
     code: "ENG101",
@@ -68,6 +71,7 @@ const courseList: TCourseInfo[] = [
     season: "Fall",
     teacher: "Prof. Davis",
     year: 2023,
+    credit: 2,
   },
   {
     code: "MATH202",
@@ -87,6 +91,7 @@ const courseList: TCourseInfo[] = [
     season: "Spring",
     teacher: "Prof. Johnson",
     year: 2023,
+    credit: 2,
   },
   {
     code: "MATH202",
@@ -106,6 +111,7 @@ const courseList: TCourseInfo[] = [
     season: "Spring",
     teacher: "Prof. Johnson",
     year: 2023,
+    credit: 2,
   },
   {
     code: "MATH202",
@@ -125,10 +131,9 @@ const courseList: TCourseInfo[] = [
     season: "Spring",
     teacher: "Prof. Johnson",
     year: 2023,
+    credit: 2,
   },
 ];
-
-const genreList: string[] = ["学部", "年度", "人数", "場所", "季節"];
 
 export const Primary: Story = {
   args: {

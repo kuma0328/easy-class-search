@@ -5,7 +5,7 @@ interface FormMediumProps {}
 export const FormMedium = ({}: FormMediumProps) => {
   return (
     <input
-      type="text"
+      type="number"
       className="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
     />
   );
