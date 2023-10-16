@@ -6,10 +6,11 @@ interface FormPeopleProps {}
 export const FormPeople = ({}: FormPeopleProps) => {
   return (
     <>
-      <div className="flex flex-row">
+      <div className="flex flex-row items-center">
         <FormMedium />
-        <div>-</div>
+        <div>以上</div>
         <FormMedium />
+        <div>以下</div>
       </div>
     </>
   );

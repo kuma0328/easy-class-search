@@ -30,6 +30,7 @@ const courseList: TCourseInfo[] = [
     season: "Fall",
     teacher: "Prof. Smith",
     year: 2023,
+    credit: 2,
   },
   {
     code: "MATH202",
@@ -49,6 +50,7 @@ const courseList: TCourseInfo[] = [
     season: "Spring",
     teacher: "Prof. Johnson",
     year: 2023,
+    credit: 2,
   },
   {
     code: "ENG101",
@@ -68,6 +70,7 @@ const courseList: TCourseInfo[] = [
     season: "Fall",
     teacher: "Prof. Davis",
     year: 2023,
+    credit: 2,
   },
   {
     code: "MATH202",
@@ -87,6 +90,7 @@ const courseList: TCourseInfo[] = [
     season: "Spring",
     teacher: "Prof. Johnson",
     year: 2023,
+    credit: 2,
   },
   {
     code: "MATH202",
@@ -106,6 +110,7 @@ const courseList: TCourseInfo[] = [
     season: "Spring",
     teacher: "Prof. Johnson",
     year: 2023,
+    credit: 2,
   },
   {
     code: "MATH202",
@@ -125,6 +130,7 @@ const courseList: TCourseInfo[] = [
     season: "Spring",
     teacher: "Prof. Johnson",
     year: 2023,
+    credit: 2,
   },
 ];
 

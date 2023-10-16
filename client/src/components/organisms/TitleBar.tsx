@@ -5,7 +5,7 @@ interface TitleBarProps {}
 
 export const TitleBar = ({}: TitleBarProps) => {
   return (
-    <div className="w-full bg-gray-50 border p-3 sticky top-0 max-w-6xl">
+    <div className="w-full bg-gray-50 border p-3">
       <Title title="同志社楽単サーチ" />
       <div className="pt-3"></div>
       <TabSwitcher />

@@ -13,6 +13,7 @@ export const CourseInfo = ({ courseInfo }: CourseInfoProps) => {
         <div className="pb-2">
           <span>{courseInfo.year}年</span>
           <span className="pl-2">{courseInfo.teacher}</span>
+          <span className="pl-2">{courseInfo.credit}単位</span>
         </div>
         <Grades
           people={courseInfo.people}

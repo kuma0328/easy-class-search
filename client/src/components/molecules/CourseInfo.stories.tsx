@@ -29,6 +29,7 @@ const courseInfo: TCourseInfo = {
   season: "春",
   teacher: "川嶋士郎",
   year: 2002,
+  credit: 2,
 };
 
 export const Primary: Story = {
