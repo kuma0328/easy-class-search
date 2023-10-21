@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 
-export const TabSwitcher = () => {
-  const [activeTab, setActiveTab] = useState("授業検索"); // 初期値を設定
+interface TabSwitcherProps {
+  activeTab: string;
+  handleTabClick: (tab: React.SetStateAction<string>) => void;
+}
 
+export const TabSwitcher = ({
+  activeTab,
+  handleTabClick,
+}: TabSwitcherProps) => {
   const tabs = ["授業検索", "先生検索"]; // タブのタイトルを定義
-
-  const handleTabClick = (tab: React.SetStateAction<string>) => {
-    setActiveTab(tab);
-  };
 
   return (
     <div>
@@ -16,7 +18,9 @@ export const TabSwitcher = () => {
           <button
             key={tab}
             onClick={() => handleTabClick(tab)}
-            className="rounded-lg border w-1/2 p-2 hover:bg-gray-100 text-gray-600 font-bold bg-white"
+            className={`rounded-lg border w-1/2 p-2 hover:bg-gray-100 text-gray-600 font-bold bg-white ${
+              activeTab === tab ? "bg-gray-100 text-gray-900" : ""
+            }`}
           >
             {tab}
           </button>

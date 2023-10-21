@@ -1,37 +1,95 @@
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import MajorFilter from "./MajorFilter";
+import { FilterBySelect } from "../molecules/FilterBySelect";
 import TFilter from "src/types/Filter";
 import FilterByInput from "../molecules/FilterByInput";
 import FilterByPeople from "../molecules/FilterByPeople";
 import FilterByTime from "../molecules/FilterByTime";
+import TCourseParam from "src/types/CourseParam";
 interface SelectGenreBarListProps {
-  genreList: string[];
   majorFilter: TFilter[];
   seasonFilter: TFilter[];
   placeFilter: TFilter[];
+  courseParam: TCourseParam;
+  changeParamOfMajor: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  changeParamOfSeason: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  changeParamOfPlace: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  changeParamOfCode: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  changeParamOfPeopleMin: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  changeParamOfPeopleMax: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  addTime: (newTime: string) => void;
+  removeTime: (timeToRemove: string) => void;
+  courseParamReset: () => void;
+  onFilterFalse: () => void;
 }
 
 export const SelectGenreBarList = ({
-  genreList,
   majorFilter,
   seasonFilter,
   placeFilter,
+  courseParam,
+  changeParamOfMajor,
+  changeParamOfSeason,
+  changeParamOfPlace,
+  changeParamOfCode,
+  changeParamOfPeopleMax,
+  changeParamOfPeopleMin,
+  addTime,
+  removeTime,
+  courseParamReset,
+  onFilterFalse,
 }: SelectGenreBarListProps) => {
   return (
     <div className="bg-gray-50">
       <div className="flex justify-between p-2 border-t border-b">
-        <button className="text-purple-300">クリア</button>
+        <div className="text-xl hover:opacity-50" onClick={onFilterFalse}>
+          ✖️
+        </div>
         <span>絞り込み</span>
-        <CloseIcon />
+        <button
+          className="text-purple-300 hover:opacity-50 pr-1"
+          onClick={courseParamReset}
+        >
+          クリア
+        </button>
       </div>
       <div>
-        <MajorFilter id="学部" filter={majorFilter} />
-        <MajorFilter id="季節" filter={seasonFilter} />
-        <MajorFilter id="場所" filter={placeFilter} />
-        <FilterByInput id="コード" />
-        <FilterByPeople id="人数" />
-        <FilterByTime id="時間" />
+        <FilterBySelect
+          id="学部"
+          filter={majorFilter}
+          onChange={changeParamOfMajor}
+          value={courseParam.major}
+        />
+        <FilterBySelect
+          id="季節"
+          filter={seasonFilter}
+          onChange={changeParamOfSeason}
+          value={courseParam.season}
+        />
+        <FilterBySelect
+          id="場所"
+          filter={placeFilter}
+          onChange={changeParamOfPlace}
+          value={courseParam.place}
+        />
+        <FilterByInput
+          id="コード"
+          changeParamOfCode={changeParamOfCode}
+          value={courseParam.code}
+        />
+        <FilterByPeople
+          id="人数"
+          changeParamOfPeopleMax={changeParamOfPeopleMax}
+          changeParamOfPeopleMin={changeParamOfPeopleMin}
+          minValue={courseParam.peopleMin}
+          maxValue={courseParam.peopleMax}
+        />
+        <FilterByTime
+          id="時間"
+          addTime={addTime}
+          removeTime={removeTime}
+          selectedTimes={courseParam.time}
+        />
       </div>
     </div>
   );

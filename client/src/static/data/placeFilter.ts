@@ -2,8 +2,8 @@ import TFilter from "src/types/Filter";
 
 const placeFilter: TFilter[] = [
   {
-    value: "",
-    text: "場所を選択してください",
+    value: "all",
+    text: "全て",
   },
   {
     value: "imadegawa",

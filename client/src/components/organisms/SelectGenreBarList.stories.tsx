@@ -50,7 +50,6 @@ const seasonFilter: TFilter[] = [
 
 export const Primary: Story = {
   args: {
-    genreList: genreList,
     majorFilter: majorFilter,
     seasonFilter: seasonFilter,
   },

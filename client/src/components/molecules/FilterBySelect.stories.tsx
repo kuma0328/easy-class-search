@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { MajorFilter } from "./MajorFilter";
+import { FilterBySelect } from "./FilterBySelect";
 import TFilter from "src/types/Filter";
 
-const meta: Meta<typeof MajorFilter> = {
-  title: "MajorFilter",
-  component: MajorFilter,
+const meta: Meta<typeof FilterBySelect> = {
+  title: "FilterBySelect",
+  component: FilterBySelect,
   tags: ["autodocs"],
 };
 export default meta;
 
-type Story = StoryObj<typeof MajorFilter>;
+type Story = StoryObj<typeof FilterBySelect>;
 
 const filter: TFilter[] = [
   {
