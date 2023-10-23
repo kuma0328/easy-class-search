@@ -10,6 +10,7 @@ const initialCourseParam: TCourseParam = {
   time: [],
   credit: 0,
   sortBy: "F率昇順",
+  teacher: "",
 };
 
 export default initialCourseParam;

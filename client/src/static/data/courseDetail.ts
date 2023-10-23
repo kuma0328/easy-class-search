@@ -1,17 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { CourseDetail } from "./CourseDetail";
 import TCourseDetail from "src/types/CourseDetail";
 
-const meta: Meta<typeof CourseDetail> = {
-  title: "CourseDetail",
-  component: CourseDetail,
-  tags: ["autodocs"],
-};
-export default meta;
-
-type Story = StoryObj<typeof CourseDetail>;
-
-const demoData: TCourseDetail = {
+const sampleCourseDetail: TCourseDetail = {
   title: "サンプルコース",
   code: "COURSE001",
   credit: 2,
@@ -57,8 +46,4 @@ const demoData: TCourseDetail = {
     // 他のコース情報も追加できます
   ],
 };
-export const Primary: Story = {
-  args: {
-    courseDetail: demoData,
-  },
-};
+export default sampleCourseDetail;

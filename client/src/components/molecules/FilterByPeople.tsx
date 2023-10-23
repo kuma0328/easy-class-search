@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import SelectGenreBar from "./SelectGenreBar";
-import FormPeople from "./FormPeople";
 
 interface FilterByPeopleProps {
   id: string;

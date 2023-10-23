@@ -1,4 +1,4 @@
-interface TCourseInfo {
+interface TCourse {
   code: string;
   title: string;
   course_id: string;
@@ -19,9 +19,9 @@ interface TCourseInfo {
   credit: number;
 }
 
-export default TCourseInfo;
+export default TCourse;
 
-export const sampleCourseList: TCourseInfo[] = [
+export const sampleCourseList: TCourse[] = [
   {
     code: "CS101",
     title: "Introduction to Computer Science",

@@ -1,11 +1,11 @@
 import React from "react";
-import CloseIcon from "@mui/icons-material/Close";
 import { FilterBySelect } from "../molecules/FilterBySelect";
 import TFilter from "src/types/Filter";
 import FilterByInput from "../molecules/FilterByInput";
 import FilterByPeople from "../molecules/FilterByPeople";
 import FilterByTime from "../molecules/FilterByTime";
 import TCourseParam from "src/types/CourseParam";
+import FilterByTeacher from "../molecules/FilterByTeacher";
 interface SelectGenreBarListProps {
   majorFilter: TFilter[];
   seasonFilter: TFilter[];
@@ -17,6 +17,7 @@ interface SelectGenreBarListProps {
   changeParamOfCode: (event: React.ChangeEvent<HTMLInputElement>) => void;
   changeParamOfPeopleMin: (event: React.ChangeEvent<HTMLInputElement>) => void;
   changeParamOfPeopleMax: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  changeParamOfTeacher: (event: React.ChangeEvent<HTMLInputElement>) => void;
   addTime: (newTime: string) => void;
   removeTime: (timeToRemove: string) => void;
   courseParamReset: () => void;
@@ -34,6 +35,7 @@ export const SelectGenreBarList = ({
   changeParamOfCode,
   changeParamOfPeopleMax,
   changeParamOfPeopleMin,
+  changeParamOfTeacher,
   addTime,
   removeTime,
   courseParamReset,
@@ -72,6 +74,11 @@ export const SelectGenreBarList = ({
           onChange={changeParamOfPlace}
           value={courseParam.place}
         />
+        <FilterByTeacher
+          id="先生"
+          changeParamOfTeacher={changeParamOfTeacher}
+          value={courseParam.teacher}
+        />
         <FilterByInput
           id="コード"
           changeParamOfCode={changeParamOfCode}
@@ -90,6 +97,14 @@ export const SelectGenreBarList = ({
           removeTime={removeTime}
           selectedTimes={courseParam.time}
         />
+      </div>
+      <div className="flex items-center justify-center">
+        <button
+          onClick={onFilterFalse}
+          className="bg-gray-50 p-2.5 hover:opacity-50 w-full"
+        >
+          <div className="text-purple-300">検索する</div>
+        </button>
       </div>
     </div>
   );

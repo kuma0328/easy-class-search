@@ -89,6 +89,12 @@ export const Top = () => {
       sortBy: event.target.value,
     });
   };
+  const changeParamOfTeacher = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCourseParam({
+      ...courseParam,
+      teacher: event.target.value,
+    });
+  };
   const onFilterClick = () => {
     setIsFilter(!isFilter);
   };
@@ -182,6 +188,7 @@ export const Top = () => {
                     changeParamOfCode={changeParamOfCode}
                     changeParamOfPeopleMax={changeParamOfPeopleMax}
                     changeParamOfPeopleMin={changeParamOfPeopleMin}
+                    changeParamOfTeacher={changeParamOfTeacher}
                     addTime={addTime}
                     removeTime={removeTime}
                     courseParamReset={courseParamReset}
