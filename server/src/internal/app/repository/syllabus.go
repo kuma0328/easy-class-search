@@ -16,7 +16,7 @@ func NewSyllabusRepository(conn *sql.DB) domain.SyllabusRepository {
 }
 
 func (sr *syllabusRepository) GetSyllabusOfCode(ctx context.Context, code string) ([]*domain.Syllabus, error) {
-	query := `SELECT * FROM syllabus_list WHERE code = $1`
+	query := `SELECT * FROM syllabus_list WHERE syllabus_id = $1`
 	rows, err := sr.Conn.Query(query, code)
 	if err != nil {
 		return nil, err

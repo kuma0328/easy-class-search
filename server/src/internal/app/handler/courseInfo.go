@@ -11,14 +11,13 @@ import (
 	"github.com/kuma0328/easy-class-search/internal/app/usecase"
 )
 
-// タイトルも追加する
 type courseInfoResponse struct {
 	CourseID    string  `json:"course_id"`
 	Code        string  `json:"code"`
-	Title     string  `json:"title"`
+	Title       string  `json:"title"`
 	People      int     `json:"people"`
-	Place				string  `json:"place"`
-	CourseTime string `json:"course_time"`
+	Place       string  `json:"place"`
+	CourseTime  string  `json:"course_time"`
 	Major       string  `json:"major"`
 	Year        int     `json:"year"`
 	Season      string  `json:"season"`
@@ -29,6 +28,7 @@ type courseInfoResponse struct {
 	RateD       float64 `json:"rate_d"`
 	RateF       float64 `json:"rate_f"`
 	RateAverage float64 `json:"rate_average"`
+	Credit      int     `json:"credit"`
 }
 
 func newGetAllCourseInfoResponse(cr []*domain.CourseInfo) []*courseInfoResponse {
@@ -43,11 +43,11 @@ func newCourseInfoResponse(c *domain.CourseInfo) *courseInfoResponse {
 	return &courseInfoResponse{
 		CourseID:    c.CourseID,
 		Code:        c.Code,
-		Title:     c.Title,
+		Title:       c.Title,
 		People:      c.People,
 		Major:       c.Major,
-		Place: c.Place,
-		CourseTime: c.CourseTime,
+		Place:       c.Place,
+		CourseTime:  c.CourseTime,
 		Year:        c.Year,
 		Season:      c.Season,
 		CourseURL:   c.CourseURL,
@@ -57,6 +57,7 @@ func newCourseInfoResponse(c *domain.CourseInfo) *courseInfoResponse {
 		RateD:       c.RateD,
 		RateF:       c.RateF,
 		RateAverage: c.RateAverage,
+		Credit:      c.Credit,
 	}
 }
 

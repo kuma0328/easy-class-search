@@ -36,7 +36,7 @@ func (cr *courseInfoRepository) GetCourseInfoListWithFliter(ctx context.Context,
 	query := makeGetCourseInfoQuery(filters)
 	rows, err := cr.Conn.Query(query)
 	if err != nil {
-		return nil, err
+		return []*domain.CourseInfo{}, err
 	}
 	defer rows.Close()
 
@@ -61,8 +61,9 @@ func (cr *courseInfoRepository) GetCourseInfoListWithFliter(ctx context.Context,
 			&courseInfo.RateD,
 			&courseInfo.RateF,
 			&courseInfo.RateAverage,
+			&courseInfo.Credit,
 		); err != nil {
-			return nil, err
+			return []*domain.CourseInfo{}, err
 		}
 		coursesInfo = append(coursesInfo, &courseInfo)
 	}

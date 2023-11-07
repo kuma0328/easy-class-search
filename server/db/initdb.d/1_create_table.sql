@@ -21,12 +21,14 @@ CREATE TABLE IF NOT EXISTS course_info (
   rate_d DOUBLE PRECISION,
   rate_f DOUBLE PRECISION,
   rate_average DOUBLE PRECISION,
+  credit INT,
   FOREIGN KEY (code) REFERENCES courses(code)
 );
 
 -- "teacher_list" テーブルの作成
 CREATE TABLE IF NOT EXISTS teacher_list (
   teacher TEXT NOT NULL PRIMARY KEY,
+  major TEXT NOT NULL,
   course_id UUID NOT NULL,
   FOREIGN KEY (course_id) REFERENCES course_info(course_id)
 );
@@ -34,8 +36,8 @@ CREATE TABLE IF NOT EXISTS teacher_list (
 -- "cousre_syllabus" テーブルの作成
 CREATE TABLE IF NOT EXISTS syllabus_list (
   syllabus_id UUID NOT NULL PRIMARY KEY,
-  code TEXT NOT NULL,
-  syllabus TEXT NOT NULL,
-  year INT,
-  FOREIGN KEY (code) REFERENCES courses(code)
-)
+  course_id UUID NOT NULL,
+  evaluation_text TEXT,
+  evaluation_value INT,
+  FOREIGN KEY (course_id) REFERENCES course_info(course_id)
+);

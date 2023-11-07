@@ -19,9 +19,10 @@ type CourseInfo struct {
 	RateD       float64
 	RateF       float64
 	RateAverage float64
+	Credit      int
 }
 
-func NewCourseInfo(courseID, code, title string, people int, place string, courseTime, string, major string, year int, season, courseURL string, rateA, rateB, rateC, rateD, rateF, rateAverage float64) *CourseInfo {
+func NewCourseInfo(courseID, code, title string, people int, place string, courseTime, string, major string, year int, season, courseURL string, rateA, rateB, rateC, rateD, rateF, rateAverage float64, credit int) *CourseInfo {
 	return &CourseInfo{
 		CourseID:    courseID,
 		Code:        code,
@@ -39,6 +40,7 @@ func NewCourseInfo(courseID, code, title string, people int, place string, cours
 		RateD:       rateD,
 		RateF:       rateF,
 		RateAverage: rateAverage,
+		Credit:      credit,
 	}
 }
 
