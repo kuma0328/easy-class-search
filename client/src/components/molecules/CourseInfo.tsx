@@ -1,6 +1,7 @@
 import React from "react";
-import TCourseInfo from "src/types/Course";
 import Grades from "./Grades";
+import EvaluationList from "../organisms/EvaluationList";
+import TCourseInfo from "src/types/CourseInfo";
 
 interface CourseInfoProps {
   courseInfo: TCourseInfo;
@@ -9,11 +10,13 @@ interface CourseInfoProps {
 export const CourseInfo = ({ courseInfo }: CourseInfoProps) => {
   return (
     <>
-      <div className="border-2 p-3 max-w-md">
+      <div className="border-2 p-3 m-2">
         <div className="pb-2">
           <span>{courseInfo.year}年</span>
           <span className="pl-2">{courseInfo.teacher}</span>
-          <span className="pl-2">{courseInfo.credit}単位</span>
+        </div>
+        <div className="pb-2">
+          <EvaluationList evaluationList={courseInfo.evaluation} />
         </div>
         <Grades
           people={courseInfo.people}
@@ -24,6 +27,11 @@ export const CourseInfo = ({ courseInfo }: CourseInfoProps) => {
           rate_f={courseInfo.rate_f}
           rate_average={courseInfo.rate_average}
         />
+        <div className="pt-2">
+          <span className="border-b text-purple-300 border-purple-300 hover:opacity-50">
+            シラバス
+          </span>
+        </div>
       </div>
     </>
   );

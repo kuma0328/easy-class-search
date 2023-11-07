@@ -2,8 +2,8 @@ import TFilter from "src/types/Filter";
 
 const seasonFilter: TFilter[] = [
   {
-    value: "",
-    text: "季節を選択してください",
+    value: "all",
+    text: "全て",
   },
   {
     value: "spring",

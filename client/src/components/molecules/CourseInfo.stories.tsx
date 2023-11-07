@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { CourseInfo } from "./CourseInfo";
-import TCourseInfo from "src/types/Course";
+import TCourseInfo from "src/types/CourseInfo";
 
 const meta: Meta<typeof CourseInfo> = {
   title: "CourseInfo",
@@ -12,24 +12,23 @@ export default meta;
 type Story = StoryObj<typeof CourseInfo>;
 
 const courseInfo: TCourseInfo = {
-  code: "111-1111",
-  title: "雇用関係法",
-  course_id: "111133",
-  course_url: "http:/localhost",
-  major: "法学部法律学科",
-  people: 1100,
-  place: "オンライン",
-  time: "月１",
-  rate_a: 1,
-  rate_b: 2,
-  rate_c: 3,
-  rate_d: 4,
-  rate_f: 5,
-  rate_average: 6,
-  season: "春",
-  teacher: "川嶋士郎",
-  year: 2002,
-  credit: 2,
+  year: 2023,
+  people: 50,
+  teacher: ["John Doe", "Jane Smith"],
+  place: "教室A",
+  time: "月曜日 10:00 AM - 12:00 PM",
+  rate_a: 0.2,
+  rate_b: 0.3,
+  rate_c: 0.4,
+  rate_d: 0.05,
+  rate_f: 0.05,
+  rate_average: 3.5,
+  syllabus_url: "https://example.com/syllabus/1",
+  evaluation: [
+    { text: "出席", percent: 50 },
+    { text: "テスト", percent: 80 },
+    // 他の評価項目も追加できます
+  ],
 };
 
 export const Primary: Story = {

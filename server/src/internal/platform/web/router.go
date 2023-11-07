@@ -39,4 +39,6 @@ func newRouter(db *sql.DB) {
 	http.HandleFunc("/course", handler.GetAllCourseHandler(db))
 	http.HandleFunc("/course_info", handler.GetCourseInfoListWithFliter(db))
 	http.HandleFunc("/syllabus", handler.GetSyllabusOfCode(db))
+	http.HandleFunc("/course_detail", handler.GetCourseDetailOfCode(db))
+	http.HandleFunc("/teacher", handler.GetTeacherAll(db))
 }

@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 import TFilter from "src/types/Filter";
-import SelectGenreBar from "../molecules/SelectGenreBar";
+import SelectGenreBar from "./SelectGenreBar";
 
-interface MajorFilterProps {
+interface FilterBySelectProps {
   id: string;
   filter: TFilter[];
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  value: string;
 }
 
-export const MajorFilter = ({ id, filter }: MajorFilterProps) => {
+export const FilterBySelect = ({
+  id,
+  filter,
+  onChange,
+  value,
+}: FilterBySelectProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const onClick = () => {
@@ -21,6 +28,8 @@ export const MajorFilter = ({ id, filter }: MajorFilterProps) => {
           <select
             id={id}
             className="block w-full px-4 py-2 mt-1 border rounded-lg"
+            onChange={onChange}
+            value={value}
           >
             {filter.map((item, i) => (
               <option value={item.value} key={i}>
@@ -34,4 +43,4 @@ export const MajorFilter = ({ id, filter }: MajorFilterProps) => {
   );
 };
 
-export default MajorFilter;
+export default FilterBySelect;

@@ -2,8 +2,8 @@ import TFilter from "src/types/Filter";
 
 const majorFilter: TFilter[] = [
   {
-    value: "",
-    text: "学部を選択してください",
+    value: "all",
+    text: "全て",
   },
   {
     value: "computer",

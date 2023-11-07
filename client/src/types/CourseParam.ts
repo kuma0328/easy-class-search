@@ -8,6 +8,7 @@ interface TCourseParam {
   time: string[];
   credit: number;
   sortBy: string;
+  teacher: string;
 }
 
 export default TCourseParam;
