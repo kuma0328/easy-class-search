@@ -19,7 +19,7 @@ export const TeacherInfo = ({ data }: TeacherInfoProps) => {
         <div className="font-semibold text-lg mb-2">Name</div>
         <div className="text-gray-600 text-sm mb-4">{data.teacher}</div>
         <div className="font-semibold text-lg mb-2">Info.</div>
-        <div className="text-gray-600 text-sm">法学部法律学科</div>
+        <div className="text-gray-600 text-sm">{data.major}</div>
       </div>
       <div className="w-1/2">
         <div className="rounded-lg">

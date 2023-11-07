@@ -1,15 +1,15 @@
 import React from "react";
 
-interface TitleProps {
+interface CourseDetailTitleProps {
   title: string;
 }
 
-export const Title = ({ title }: TitleProps) => {
+export const CourseDetailTitle = ({ title }: CourseDetailTitleProps) => {
   return (
     <>
       <div className="flex flex-row">
         <img
-          src="/logo.svg"
+          src="COURSE001/images/COURSE001/logo.svg"
           alt=""
           className="w-10 h-10 object-contain" // アスペクト比を維持
         />
@@ -21,4 +21,4 @@ export const Title = ({ title }: TitleProps) => {
   );
 };
 
-export default Title;
+export default CourseDetailTitle;
