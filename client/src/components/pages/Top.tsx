@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCourseInfoPosts } from "src/api/post";
+import { getCourseInfoPosts, getTeacherGradesPosts } from "src/api/post";
 import TCourseInfo from "src/types/Course";
 import CourseList from "../organisms/CourseList";
 import TitleBar from "../organisms/TitleBar";
@@ -11,12 +11,12 @@ import placeFilter from "src/static/data/placeFilter";
 import TCourseParam from "src/types/CourseParam";
 import initialCourseParam from "src/static/data/courseParam";
 import TeacherList from "../organisms/TeacherList";
-import teacherList from "src/static/data/demoteacherList";
 import TTeacherParam from "src/types/TeacherParam";
 import initialTeacherParam from "src/static/data/teacherParam";
 import TeacherColmuns from "../organisms/TeacherColmuns";
 import MoreInfo from "../molecules/MoreInfo";
 import Footer from "../molecules/Footer";
+import TRadarChart from "src/types/RadarChart";
 
 export const Top = () => {
   const [courseInfoData, setCourseInfoData] = useState<TCourseInfo[]>([]);
@@ -25,6 +25,7 @@ export const Top = () => {
     useState<TCourseParam>(initialCourseParam);
   const [teacherParam, setTeacherParam] =
     useState<TTeacherParam>(initialTeacherParam);
+  const [teacherList, setTeacherList] = useState<TRadarChart[]>([]);
 
   const courseParamReset = () => {
     setCourseParam(initialCourseParam);
@@ -126,14 +127,26 @@ export const Top = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getCourseInfoPosts();
+        const res = await getCourseInfoPosts(courseParam);
         setCourseInfoData(res);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  });
+  }, [courseParam]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getTeacherGradesPosts();
+        setTeacherList(res);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [teacherParam]);
   return (
     <>
       <div className="bg-white w-screen h-screen">

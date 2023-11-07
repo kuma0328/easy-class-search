@@ -10,7 +10,7 @@ interface CourseInfoProps {
 export const CourseInfo = ({ courseInfo }: CourseInfoProps) => {
   return (
     <>
-      <div className="border-2 p-3 m-2">
+      <div className="justify-between mt-2 border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden p-5 bg-white shadow-md">
         <div className="pb-2">
           <span>{courseInfo.year}年</span>
           <span className="pl-2">{courseInfo.teacher}</span>

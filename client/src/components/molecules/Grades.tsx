@@ -20,7 +20,7 @@ export const Grades = ({
   rate_average,
 }: GradesProps) => {
   return (
-    <>
+    <div className="flex items-center justify-center">
       <table className="table-auto border-collapse border border-gray-400">
         <thead>
           <tr>
@@ -59,7 +59,7 @@ export const Grades = ({
           </tr>
         </tbody>
       </table>
-    </>
+    </div>
   );
 };
 

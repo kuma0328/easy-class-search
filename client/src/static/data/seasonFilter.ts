@@ -2,15 +2,15 @@ import TFilter from "src/types/Filter";
 
 const seasonFilter: TFilter[] = [
   {
-    value: "all",
+    value: "",
     text: "全て",
   },
   {
-    value: "spring",
+    value: "Spring",
     text: "春",
   },
   {
-    value: "autumn",
+    value: "Fall",
     text: "秋",
   },
   {

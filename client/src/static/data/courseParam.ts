@@ -1,9 +1,9 @@
 import TCourseParam from "src/types/CourseParam";
 
 const initialCourseParam: TCourseParam = {
-  major: "all",
-  season: "all",
-  place: "all",
+  major: "",
+  season: "",
+  place: "",
   code: "",
   peopleMin: 0,
   peopleMax: 1000,
