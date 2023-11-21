@@ -20,7 +20,7 @@ const courseInfo: TCourseInfo = {
   major: "法学部法律学科",
   people: 1100,
   place: "オンライン",
-  time: "月１",
+  course_time: "月１",
   rate_a: 1,
   rate_b: 2,
   rate_c: 3,
@@ -28,9 +28,9 @@ const courseInfo: TCourseInfo = {
   rate_f: 5,
   rate_average: 6,
   season: "春",
-  teacher: "川嶋士郎",
   year: 2002,
   credit: 2,
+  class_format: "face-to-face",
 };
 
 export const Primary: Story = {

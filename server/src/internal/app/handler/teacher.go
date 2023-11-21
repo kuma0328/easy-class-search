@@ -22,6 +22,16 @@ type teacherResponse struct {
 	Data    []SubjectDataJSON `json:"data"`
 }
 
+type teacherCountResponse struct {
+	TeacherCount int `json:"teacher_count"`
+}
+
+func newTeacherCountResponse(teacherCount int) *teacherCountResponse {
+	return &teacherCountResponse{
+		TeacherCount: teacherCount,
+	}
+}
+
 func newGetTeacherAllResponse(t []domain.Teacher) []teacherResponse {
 	var response []teacherResponse
 
@@ -45,6 +55,13 @@ func newGetTeacherAllResponse(t []domain.Teacher) []teacherResponse {
 	return response
 }
 
+func makeTeacherFilter(r *http.Request) map[string][]string {
+	filters := make(map[string][]string)
+	getParam(r, "offset", filters)
+	getParam(r, "major", filters)
+	return filters
+}
+
 func corsSetTeacher(w http.ResponseWriter) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -59,13 +76,42 @@ func GetTeacherAll(db *sql.DB) http.HandlerFunc {
 		log.Printf("Received Request for %s %s", r.Method, r.URL.Path)
 		corsSetTeacher(w)
 		if r.Method == http.MethodGet {
-			teacher, err := ucTeacher.GetTeacherAll(r.Context())
+			filters := makeTeacherFilter(r)
+			teacher, err := ucTeacher.GetTeacherAll(r.Context(), filters)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
 			res := newGetTeacherAllResponse(teacher)
+			if err := json.NewEncoder(w).Encode(res); err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			w.WriteHeader(http.StatusOK)
+		}
+	}
+
+	return handler
+}
+
+func GetTeacherCount(db *sql.DB) http.HandlerFunc {
+	repoTeacher := repository.NewTeacherRepository(db)
+	ucTeacher := usecase.NewTeacherUsecase(repoTeacher)
+
+	handler := func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("Received Request for %s %s", r.Method, r.URL.Path)
+		corsSetTeacher(w)
+		if r.Method == http.MethodGet {
+			filters := makeTeacherFilter(r)
+			teacherCount, err := ucTeacher.GetTeacherCount(r.Context(), filters)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			res := newTeacherCountResponse(teacherCount)
 			if err := json.NewEncoder(w).Encode(res); err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return

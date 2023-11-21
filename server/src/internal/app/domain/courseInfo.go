@@ -20,9 +20,10 @@ type CourseInfo struct {
 	RateF       float64
 	RateAverage float64
 	Credit      int
+	ClassFormat string
 }
 
-func NewCourseInfo(courseID, code, title string, people int, place string, courseTime, string, major string, year int, season, courseURL string, rateA, rateB, rateC, rateD, rateF, rateAverage float64, credit int) *CourseInfo {
+func NewCourseInfo(courseID, code, title string, people int, place string, courseTime, string, major string, year int, season, courseURL string, rateA, rateB, rateC, rateD, rateF, rateAverage float64, credit int, classFormat string) *CourseInfo {
 	return &CourseInfo{
 		CourseID:    courseID,
 		Code:        code,
@@ -41,13 +42,18 @@ func NewCourseInfo(courseID, code, title string, people int, place string, cours
 		RateF:       rateF,
 		RateAverage: rateAverage,
 		Credit:      credit,
+		ClassFormat: classFormat,
 	}
 }
 
 type CourseInfoRepository interface {
 	GetCourseInfoListWithFliter(ctx context.Context, filters map[string][]string) ([]*CourseInfo, error)
+	GetCoursesByTeacher(ctx context.Context, teacher string) ([]*CourseInfo, error)
+	GetCountCourseInfo(ctx context.Context, filters map[string][]string) (int, error)
 }
 
 type CourseInfoUsecase interface {
 	GetCourseInfoListWithFliter(ctx context.Context, filters map[string][]string) ([]*CourseInfo, error)
+	GetCoursesByTeacher(ctx context.Context, teacher string) ([]*CourseInfo, error)
+	GetCountCourseInfo(ctx context.Context, filters map[string][]string) (int, error)
 }

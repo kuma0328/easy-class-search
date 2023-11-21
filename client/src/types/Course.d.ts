@@ -6,7 +6,7 @@ interface TCourse {
   major: string;
   people: number;
   place: string;
-  time: string;
+  course_time: string;
   rate_a: number;
   rate_b: number;
   rate_c: number;
@@ -14,9 +14,9 @@ interface TCourse {
   rate_f: number;
   rate_average: number;
   season: string;
-  teacher: string;
   year: number;
   credit: number;
+  class_format: string;
 }
 
 export default TCourse;

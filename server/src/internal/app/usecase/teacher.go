@@ -16,7 +16,12 @@ func NewTeacherUsecase(tu domain.TeacherRepository) domain.TeacherUsecase {
 	}
 }
 
-func (tu *teacherUsecase) GetTeacherAll(ctx context.Context) ([]domain.Teacher, error) {
-	t, err := tu.teacherRepo.GetTeacherAll(ctx)
+func (tu *teacherUsecase) GetTeacherAll(ctx context.Context, filters map[string][]string) ([]domain.Teacher, error) {
+	t, err := tu.teacherRepo.GetTeacherAll(ctx, filters)
 	return t, err
+}
+
+func (tu *teacherUsecase) GetTeacherCount(ctx context.Context, filters map[string][]string) (int, error) {
+	c, err := tu.teacherRepo.GetTeacherCount(ctx, filters)
+	return c, err
 }

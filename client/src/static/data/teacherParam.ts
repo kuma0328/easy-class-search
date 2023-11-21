@@ -1,8 +1,8 @@
 import TTeacherParam from "src/types/TeacherParam";
 
 const initialTeacherParam: TTeacherParam = {
-  major: "all",
-  sortBy: "F率昇順",
+  major: "",
+  offset: 0,
 };
 
 export default initialTeacherParam;

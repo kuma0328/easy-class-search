@@ -4,9 +4,9 @@ import SelectGenreBar from "./SelectGenreBar";
 
 interface FilterBySelectProps {
   id: string;
-  filter: TFilter[];
+  filter: TFilter[] | { value: number; text: string }[];
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  value: string;
+  value: string | number;
 }
 
 export const FilterBySelect = ({

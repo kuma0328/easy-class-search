@@ -1,23 +1,21 @@
 import React from "react";
 import { FilterBySelect } from "../molecules/FilterBySelect";
-import TFilter from "src/types/Filter";
-import FilterByInput from "../molecules/FilterByInput";
-import FilterByPeople from "../molecules/FilterByPeople";
 import FilterByTime from "../molecules/FilterByTime";
 import TCourseParam from "src/types/CourseParam";
-import FilterByTeacher from "../molecules/FilterByTeacher";
+import yearFilter from "src/static/data/yearFilter";
+import majorFilter from "src/static/data/majorFilter";
+import seasonFilter from "src/static/data/seasonFilter";
+import placeFilter from "src/static/data/placeFilter";
+import classFormatFilter from "src/static/data/classFormatFilter";
 interface SelectGenreBarListProps {
-  majorFilter: TFilter[];
-  seasonFilter: TFilter[];
-  placeFilter: TFilter[];
   courseParam: TCourseParam;
   changeParamOfMajor: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   changeParamOfSeason: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   changeParamOfPlace: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  changeParamOfCode: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  changeParamOfPeopleMin: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  changeParamOfPeopleMax: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  changeParamOfTeacher: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  changeParamOfYear: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  changeParamOfClassFormat: (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => void;
   addTime: (newTime: string) => void;
   removeTime: (timeToRemove: string) => void;
   courseParamReset: () => void;
@@ -25,28 +23,23 @@ interface SelectGenreBarListProps {
 }
 
 export const SelectGenreBarList = ({
-  majorFilter,
-  seasonFilter,
-  placeFilter,
   courseParam,
   changeParamOfMajor,
   changeParamOfSeason,
   changeParamOfPlace,
-  changeParamOfCode,
-  changeParamOfPeopleMax,
-  changeParamOfPeopleMin,
-  changeParamOfTeacher,
+  changeParamOfYear,
+  changeParamOfClassFormat,
   addTime,
   removeTime,
   courseParamReset,
   onFilterFalse,
 }: SelectGenreBarListProps) => {
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50 max-h-screen overflow-y-auto max-w-md w-11/12 fixed top-0 right-0">
       <div className="flex justify-between p-2 border-t border-b">
-        <div className="text-xl hover:opacity-50" onClick={onFilterFalse}>
+        <button className="text-xl hover:opacity-50" onClick={onFilterFalse}>
           ✖️
-        </div>
+        </button>
         <span>絞り込み</span>
         <button
           className="text-purple-300 hover:opacity-50 pr-1"
@@ -74,22 +67,17 @@ export const SelectGenreBarList = ({
           onChange={changeParamOfPlace}
           value={courseParam.place}
         />
-        <FilterByTeacher
-          id="先生"
-          changeParamOfTeacher={changeParamOfTeacher}
-          value={courseParam.teacher}
+        <FilterBySelect
+          id="授業形態"
+          filter={classFormatFilter}
+          onChange={changeParamOfClassFormat}
+          value={courseParam.classFormat}
         />
-        <FilterByInput
-          id="コード"
-          changeParamOfCode={changeParamOfCode}
-          value={courseParam.code}
-        />
-        <FilterByPeople
-          id="人数"
-          changeParamOfPeopleMax={changeParamOfPeopleMax}
-          changeParamOfPeopleMin={changeParamOfPeopleMin}
-          minValue={courseParam.peopleMin}
-          maxValue={courseParam.peopleMax}
+        <FilterBySelect
+          id="年度"
+          filter={yearFilter}
+          onChange={changeParamOfYear}
+          value={courseParam.year}
         />
         <FilterByTime
           id="時間"
@@ -101,7 +89,7 @@ export const SelectGenreBarList = ({
       <div className="flex items-center justify-center">
         <button
           onClick={onFilterFalse}
-          className="bg-gray-50 p-2.5 hover:opacity-50 w-full"
+          className="bg-gray-50 p-2.5 hover:opacity-50"
         >
           <div className="text-purple-300">検索する</div>
         </button>

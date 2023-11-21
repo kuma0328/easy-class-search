@@ -14,9 +14,11 @@ type Teacher struct {
 }
 
 type TeacherRepository interface {
-	GetTeacherAll(ctx context.Context) ([]Teacher, error)
+	GetTeacherAll(ctx context.Context, filters map[string][]string) ([]Teacher, error)
+	GetTeacherCount(ctx context.Context, filters map[string][]string) (int, error)
 }
 
 type TeacherUsecase interface {
-	GetTeacherAll(ctx context.Context) ([]Teacher, error)
+	GetTeacherAll(ctx context.Context, filters map[string][]string) ([]Teacher, error)
+	GetTeacherCount(ctx context.Context, filters map[string][]string) (int, error)
 }

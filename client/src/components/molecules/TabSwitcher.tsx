@@ -18,8 +18,8 @@ export const TabSwitcher = ({
           <button
             key={tab}
             onClick={() => handleTabClick(tab)}
-            className={`rounded-lg border w-1/2 p-2 hover:bg-gray-100 text-gray-600 font-bold bg-white ${
-              activeTab === tab ? "bg-gray-100 text-gray-900" : ""
+            className={`rounded-lg border w-1/2 p-2 hover:bg-gray-100 text-gray-600 font-bold ${
+              activeTab === tab ? "bg-gray-200 text-gray-900" : "bg-white"
             }`}
           >
             {tab}

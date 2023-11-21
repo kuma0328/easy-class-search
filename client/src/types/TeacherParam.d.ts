@@ -1,6 +1,6 @@
 interface TTeacherParam {
   major: string;
-  sortBy: string;
+  offset: number;
 }
 
 export default TTeacherParam;
