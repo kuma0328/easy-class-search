@@ -5,7 +5,6 @@ interface FormCheckBoxProps {}
 export const FormCheckBox = ({}: FormCheckBoxProps) => {
   return (
     <>
-      {" "}
       <Checkbox defaultChecked color="secondary" />
     </>
   );

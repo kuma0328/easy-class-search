@@ -30,7 +30,7 @@ export const FormTime = ({
           {weeks.map((week) => (
             <tr key={week}>
               {days.map((_, index) => {
-                const time = `${week}${days[index]}`;
+                const time = `${days[index]}曜日${week}講時`;
                 const isSelected = selectedTimes.includes(time);
 
                 return (

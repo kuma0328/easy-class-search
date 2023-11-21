@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"math"
 
 	"github.com/kuma0328/easy-class-search/internal/app/domain"
 )
@@ -17,12 +16,11 @@ func NewTeacherRepository(conn *sql.DB) domain.TeacherRepository {
 }
 
 type courseGrades struct {
-	People int
-	RateA  float64
-	RateB  float64
-	RateC  float64
-	RateD  float64
-	RateF  float64
+	RateA float64
+	RateB float64
+	RateC float64
+	RateD float64
+	RateF float64
 }
 
 type teacherInfo struct {
@@ -30,88 +28,76 @@ type teacherInfo struct {
 	Major string
 }
 
-func calculatePeopleWithRating(totalPeople int, percentage float64) float64 {
-	return float64(totalPeople) * (percentage / 100)
+func makeGetTeacherRateQuery(query *string, filters map[string][]string, params *[]interface{}) {
+	addAndQuery("major", query, filters, params)
 }
 
-func calculatePercentage(peopleWithRating float64, totalPeople int) float64 {
-	if totalPeople == 0 {
-		return 0.0
-	}
-	percentage := (peopleWithRating / float64(totalPeople)) * 100.0
-	return float64(math.Floor(float64(percentage*10)) / 10)
-}
-
-func calculateTeacherEvaluationProbabilities(teacherInfo teacherInfo, grades []courseGrades) domain.Teacher {
-	var totalStudent int
-	var sumRateA, sumRateB, sumRateC, sumRateD, sumRateF float64
-
-	for _, g := range grades {
-		totalStudent += g.People
-		sumRateA += calculatePeopleWithRating(g.People, g.RateA)
-		sumRateB += calculatePeopleWithRating(g.People, g.RateB)
-		sumRateC += calculatePeopleWithRating(g.People, g.RateC)
-		sumRateD += calculatePeopleWithRating(g.People, g.RateD)
-		sumRateF += calculatePeopleWithRating(g.People, g.RateF)
-	}
-
-	subjectData := []domain.SubjectData{
-		{Subject: "A", A: calculatePercentage(sumRateA, totalStudent)},
-		{Subject: "B", A: calculatePercentage(sumRateB, totalStudent)},
-		{Subject: "C", A: calculatePercentage(sumRateC, totalStudent)},
-		{Subject: "D", A: calculatePercentage(sumRateD, totalStudent)},
-		{Subject: "F", A: calculatePercentage(sumRateF, totalStudent)},
-	}
-
-	return domain.Teacher{
-		Teacher: teacherInfo.Name,
-		Major:   teacherInfo.Major,
-		Data:    subjectData,
-	}
-}
-
-func (tr *teacherRepository) GetTeacherAll(ctx context.Context) ([]domain.Teacher, error) {
+func (tr *teacherRepository) GetTeacherAll(ctx context.Context, filters map[string][]string) ([]domain.Teacher, error) {
 	query := `SELECT
-	t.teacher,
-	t.major,
-	ci.people,
-	ci.rate_a,
-	ci.rate_b,
-	ci.rate_c,
-	ci.rate_d,
-	ci.rate_f
-	FROM teacher_list t
-	LEFT JOIN course_info ci ON t.course_id = ci.course_id`
+	teacher_name,
+	major,
+	rate_a,
+	rate_b,
+	rate_c,
+	rate_d,
+	rate_f
+	FROM teacher_rate
+	WHERE 1=1
+	`
+	var params []interface{}
 
-	var teacher []domain.Teacher
+	makeGetCourseInfoQuery(&query, filters, &params)
+	addOffsetQuery("offset", &query, filters, &params)
 
-	rows, err := tr.Conn.Query(query)
+	var teacherList []domain.Teacher
+
+	rows, err := tr.Conn.Query(query, params...)
 	if err != nil {
-		return teacher, err
+		return teacherList, err
 	}
 	defer rows.Close()
 
-	m := map[teacherInfo][]courseGrades{}
 	for rows.Next() {
+		var teacher domain.Teacher
 		var grades courseGrades
-		var info teacherInfo
 		if err := rows.Scan(
-			&info.Name,
-			&info.Major,
-			&grades.People,
+			&teacher.Teacher,
+			&teacher.Major,
 			&grades.RateA,
 			&grades.RateB,
 			&grades.RateC,
 			&grades.RateD,
 			&grades.RateF,
 		); err != nil {
-			return teacher, err
+			return teacherList, err
 		}
-		m[info] = append(m[info], grades)
+		subjectData := []domain.SubjectData{
+			{Subject: "A", A: grades.RateA},
+			{Subject: "B", A: grades.RateB},
+			{Subject: "C", A: grades.RateC},
+			{Subject: "D", A: grades.RateD},
+			{Subject: "F", A: grades.RateF},
+		}
+		teacher.Data = subjectData
+		teacherList = append(teacherList, teacher)
 	}
 
-	for info, grades := range m {
-		teacher = append(teacher, calculateTeacherEvaluationProbabilities(info, grades))
+	return teacherList, nil
+}
+
+func (tr *teacherRepository) GetTeacherCount(ctx context.Context, filters map[string][]string) (int, error) {
+	query := `SELECT
+	COUNT(*)
+	FROM teacher_rate
+	WHERE 1=1
+	`
+	var params []interface{}
+
+	makeGetTeacherRateQuery(&query, filters, &params)
+	var count int
+	err := tr.Conn.QueryRow(query, params...).Scan(&count)
+	if err != nil {
+		return 0, err
 	}
-	return teacher, nil
+	return count, nil
 }

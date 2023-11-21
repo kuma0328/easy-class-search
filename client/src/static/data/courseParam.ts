@@ -4,13 +4,12 @@ const initialCourseParam: TCourseParam = {
   major: "",
   season: "",
   place: "",
-  code: "",
-  peopleMin: 0,
-  peopleMax: 1000,
   time: [],
-  credit: 0,
   sortBy: "F率昇順",
-  teacher: "",
+  offset: 0,
+  favorite: false,
+  year: 2022,
+  classFormat: "",
 };
 
 export default initialCourseParam;

@@ -13,7 +13,7 @@ export const CourseInfo = ({ courseInfo }: CourseInfoProps) => {
       <div className="justify-between mt-2 border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden p-5 bg-white shadow-md">
         <div className="pb-2">
           <span>{courseInfo.year}年</span>
-          <span className="pl-2">{courseInfo.teacher}</span>
+          <span className="pl-2">{courseInfo.teacher.join(", ")}</span>
         </div>
         <div className="pb-2">
           <EvaluationList evaluationList={courseInfo.evaluation} />
@@ -28,9 +28,12 @@ export const CourseInfo = ({ courseInfo }: CourseInfoProps) => {
           rate_average={courseInfo.rate_average}
         />
         <div className="pt-2">
-          <span className="border-b text-purple-300 border-purple-300 hover:opacity-50">
+          <a
+            href={courseInfo.syllabus_url}
+            className="border-b text-purple-300 border-purple-300 hover:opacity-50"
+          >
             シラバス
-          </span>
+          </a>
         </div>
       </div>
     </>

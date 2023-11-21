@@ -9,10 +9,10 @@ interface CourseInfoListProps {
 export const CourseInfoList = ({ courseList }: CourseInfoListProps) => {
   return (
     <>
-      <div className="bg-purple-50 p-5 min-h-screen w-screen">
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-3 md:grid-cols-2">
-          {courseList.map((course) => (
-            <CourseInfo courseInfo={course} />
+      <div className="bg-purple-50 xl:p-5 lg:p-3 p-1 w-screen">
+        <div className="grid grid-cols-1 xl:gap-5 xl:grid-cols-3 lg:grid-cols-2 lg:gap-3 gap-2">
+          {courseList.map((course, i) => (
+            <CourseInfo courseInfo={course} key={i}/>
           ))}
         </div>
       </div>

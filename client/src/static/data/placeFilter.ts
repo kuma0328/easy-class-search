@@ -2,20 +2,16 @@ import TFilter from "src/types/Filter";
 
 const placeFilter: TFilter[] = [
   {
-    value: "all",
+    value: "",
     text: "全て",
   },
   {
-    value: "imadegawa",
+    value: "今出川",
     text: "今出川",
   },
   {
-    value: "kyoutanabe",
+    value: "京田辺",
     text: "京田辺",
-  },
-  {
-    value: "online",
-    text: "オンライン",
   },
 ];
 

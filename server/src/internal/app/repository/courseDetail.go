@@ -15,6 +15,34 @@ func NewCourseDetailRepository(conn *sql.DB) domain.CourseDetailRepository {
 	return &courseDetailRepository{conn}
 }
 
+func removeDuplicates(slice []string) []string {
+	encountered := make(map[string]struct{})
+	result := []string{}
+
+	for _, value := range slice {
+		if _, exists := encountered[value]; !exists {
+			encountered[value] = struct{}{}
+			result = append(result, value)
+		}
+	}
+
+	return result
+}
+
+func removeDuplicateEvaluations(evaluations []domain.Evaluation) []domain.Evaluation {
+	encountered := map[domain.Evaluation]struct{}{}
+	result := []domain.Evaluation{}
+
+	for _, eval := range evaluations {
+		if _, ok := encountered[eval]; !ok {
+			encountered[eval] = struct{}{}
+			result = append(result, eval)
+		}
+	}
+
+	return result
+}
+
 func (cr *courseDetailRepository) GetCourseDetailOfCode(ctx context.Context, code string) (domain.CourseDetail, error) {
 	query := `SELECT
   c.code AS course_code,
@@ -38,14 +66,16 @@ func (cr *courseDetailRepository) GetCourseDetailOfCode(ctx context.Context, cod
 	JOIN courses c ON ci.code = c.code
 	LEFT JOIN teacher_list t ON ci.course_id = t.course_id
 	LEFT JOIN syllabus_list s ON ci.course_id = s.course_id
-	WHERE c.code = $1`
+	WHERE c.code = $1
+	ORDER BY course_year ASC
+	`
 
 	rows, err := cr.Conn.Query(query, code)
 	if err != nil {
 		return domain.CourseDetail{}, err
 	}
 	defer rows.Close()
-	
+
 	var courseDetail domain.CourseDetail
 	var courseDetailInfo domain.CourseDetailInfo
 	var evaluation domain.Evaluation
@@ -100,6 +130,8 @@ func (cr *courseDetailRepository) GetCourseDetailOfCode(ctx context.Context, cod
 		}
 	}
 	for _, courseInfo := range m {
+		courseInfo.Teacher = removeDuplicates(courseInfo.Teacher)
+		courseInfo.Evaluation = removeDuplicateEvaluations(courseInfo.Evaluation)
 		courseDetail.Info = append(courseDetail.Info, courseInfo)
 	}
 	return courseDetail, nil

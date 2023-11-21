@@ -6,16 +6,12 @@ const seasonFilter: TFilter[] = [
     text: "全て",
   },
   {
-    value: "Spring",
-    text: "春",
+    value: "春学期",
+    text: "春学期",
   },
   {
-    value: "Fall",
-    text: "秋",
-  },
-  {
-    value: "all",
-    text: "通年",
+    value: "秋学期",
+    text: "秋学期",
   },
 ];
 

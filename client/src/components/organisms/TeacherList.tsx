@@ -9,8 +9,8 @@ interface TeacherListProps {
 export const TeacherList = ({ teacherList }: TeacherListProps) => {
   return (
     <>
-      <div className="bg-purple-50 p-5 min-h-screen w-screen">
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-3 md:grid-cols-2">
+      <div className="bg-purple-50 xl:p-5 lg:p-3 p-1  min-h-screen">
+        <div className="grid grid-cols-1 xl:gap-5 xl:grid-cols-3 lg:grid-cols-2 lg:gap-3 gap-2">
           {teacherList.map((data) => (
             <TeacherInfo data={data} />
           ))}

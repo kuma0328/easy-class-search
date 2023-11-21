@@ -20,3 +20,13 @@ func (ci *courseInfoUsecase) GetCourseInfoListWithFliter(ctx context.Context, fi
 	c, err := ci.courseInfoRepo.GetCourseInfoListWithFliter(ctx, filters)
 	return c, err
 }
+
+func (ci *courseInfoUsecase) GetCoursesByTeacher(ctx context.Context, teacher string) ([]*domain.CourseInfo, error) {
+	c, err := ci.courseInfoRepo.GetCoursesByTeacher(ctx, teacher)
+	return c, err
+}
+
+func (ci *courseInfoUsecase) GetCountCourseInfo(ctx context.Context, filters map[string][]string) (int, error) {
+	c, err := ci.courseInfoRepo.GetCountCourseInfo(ctx, filters)
+	return c, err
+}
