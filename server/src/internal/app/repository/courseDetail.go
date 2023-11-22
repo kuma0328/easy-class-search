@@ -67,7 +67,7 @@ func (cr *courseDetailRepository) GetCourseDetailOfCode(ctx context.Context, cod
 	LEFT JOIN teacher_list t ON ci.course_id = t.course_id
 	LEFT JOIN syllabus_list s ON ci.course_id = s.course_id
 	WHERE c.code = $1
-	ORDER BY course_year ASC
+	ORDER BY ci.year ASC
 	`
 
 	rows, err := cr.Conn.Query(query, code)
