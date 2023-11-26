@@ -314,6 +314,7 @@ export const Top = () => {
     };
 
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseParam]);
 
   useEffect(() => {

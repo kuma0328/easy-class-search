@@ -1,5 +1,3 @@
-import React from "react";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
 interface FilterButtonProps {
   onFilterClick: () => void;
 }

@@ -1,8 +1,4 @@
-import React from "react";
-
-interface NoDataProps {}
-
-export const NoData = ({}: NoDataProps) => {
+export const NoData = () => {
   return (
     <div className="text-center bg-purple-50 p-20">
       <img

@@ -1,9 +1,4 @@
-import { CircularProgress, Typography } from "@mui/material";
-import React from "react";
-
-interface LoadingProps {}
-
-export const Loading = ({}: LoadingProps) => {
+export const Loading = () => {
   return (
     <>
       <div className="flex flex-col items-center bg-purple-50 p-20">

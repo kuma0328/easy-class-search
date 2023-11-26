@@ -12,9 +12,7 @@ import TCommentParam from "src/types/CommentParam";
 import NoData from "../atoms/NoData";
 import Loading from "../atoms/Loading";
 
-interface CourseInfoProps {}
-
-export const CourseInfo = ({}: CourseInfoProps) => {
+export const CourseInfo = () => {
   const { id } = useParams<{ id: string }>();
   const [courseDetailData, setCourseDetailData] = useState<TCourseDetail>();
   const [commentData, setCommentData] = useState<TComment[]>([] as TComment[]);

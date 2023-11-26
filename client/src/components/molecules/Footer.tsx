@@ -1,8 +1,4 @@
-import React from "react";
-
-interface FooterProps {}
-
-export const Footer = ({}: FooterProps) => {
+export const Footer = () => {
   return (
     <div className="bg-gray-50 text-gray-600 p-3 text-sm text-center">
       データの出所:
