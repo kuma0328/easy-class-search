@@ -11,8 +11,8 @@ export const TeacherList = ({ teacherList }: TeacherListProps) => {
     <>
       <div className="bg-purple-50 xl:p-5 lg:p-3 p-1  min-h-screen">
         <div className="grid grid-cols-1 xl:gap-5 xl:grid-cols-3 lg:grid-cols-2 lg:gap-3 gap-2">
-          {teacherList.map((data) => (
-            <TeacherInfo data={data} />
+          {teacherList.map((data, i) => (
+            <TeacherInfo data={data} key={i} />
           ))}
         </div>
       </div>
