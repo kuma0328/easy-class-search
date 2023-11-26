@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 interface FormTimeProps {
   addTime: (time: string) => void;
   removeTime: (time: string) => void;

@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 interface TabSwitcherProps {
   activeTab: string;
   handleTabClick: (tab: React.SetStateAction<string>) => void;

@@ -8,9 +8,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import NoData from "../atoms/NoData";
 import Loading from "../atoms/Loading";
 
-interface TeacherInfoProps {}
-
-export const TeacherInfo = ({}: TeacherInfoProps) => {
+export const TeacherInfo = () => {
   const { id } = useParams<{ id: string }>();
   const [courseData, setCourseData] = useState<TCourse[]>([]);
   const [loading, setLoading] = useState(true);
