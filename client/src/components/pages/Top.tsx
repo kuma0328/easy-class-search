@@ -254,87 +254,87 @@ export const Top = () => {
     }));
   };
 
-  useEffect(() => {
-    const storedTeacherParam = readFromCookie("teacherParam");
-    if (storedTeacherParam) {
-      const parsedTeacherParam: TTeacherParam = JSON.parse(storedTeacherParam);
-      if (!isEqual(parsedTeacherParam, teacherParam)) {
-        setTeacherParam(parsedTeacherParam);
-      }
-    }
+  // useEffect(() => {
+  //   const storedTeacherParam = readFromCookie("teacherParam");
+  //   if (storedTeacherParam) {
+  //     const parsedTeacherParam: TTeacherParam = JSON.parse(storedTeacherParam);
+  //     if (!isEqual(parsedTeacherParam, teacherParam)) {
+  //       setTeacherParam(parsedTeacherParam);
+  //     }
+  //   }
 
-    const storedActiveTab = readFromCookie("activeTab");
-    if (storedActiveTab) {
-      const parsedActiveTab: string = JSON.parse(storedActiveTab);
-      setActiveTab(parsedActiveTab);
-    }
+  //   const storedActiveTab = readFromCookie("activeTab");
+  //   if (storedActiveTab) {
+  //     const parsedActiveTab: string = JSON.parse(storedActiveTab);
+  //     setActiveTab(parsedActiveTab);
+  //   }
 
-    const storedCourseParam = readFromCookie("courseParam");
-    if (storedCourseParam) {
-      const parsedCourseParam: TCourseParam = JSON.parse(storedCourseParam);
-      if (!isEqual(parsedCourseParam, courseParam)) {
-        setCourseParam(parsedCourseParam);
-      }
-    }
+  //   const storedCourseParam = readFromCookie("courseParam");
+  //   if (storedCourseParam) {
+  //     const parsedCourseParam: TCourseParam = JSON.parse(storedCourseParam);
+  //     if (!isEqual(parsedCourseParam, courseParam)) {
+  //       setCourseParam(parsedCourseParam);
+  //     }
+  //   }
 
-    const storedStarList = readFromCookie("starCodeList");
-    if (storedStarList) {
-      const parsedStarList: string[] = JSON.parse(storedStarList);
-      setStarCodeList(parsedStarList);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   const storedStarList = readFromCookie("starCodeList");
+  //   if (storedStarList) {
+  //     const parsedStarList: string[] = JSON.parse(storedStarList);
+  //     setStarCodeList(parsedStarList);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      saveToCookie("courseParam", JSON.stringify(courseParam));
-      try {
-        setCourseLoading(true);
-        const param: TFavoriteCourseParam = {
-          major: courseParam.major,
-          season: courseParam.season,
-          place: courseParam.place,
-          course_time: courseParam.time,
-          sortBy: courseParam.sortBy,
-          offset: courseParam.offset,
-          favorite: courseParam.favorite,
-          year: courseParam.year,
-          class_format: courseParam.classFormat,
-          code: starCodeList,
-        };
-        const courseCount = await getCourseCountPosts(param);
-        setCourseCount(courseCount);
-        const courseInfo = await getCourseInfoPosts(param);
-        setCourseInfoData(courseInfo);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setCourseLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     saveToCookie("courseParam", JSON.stringify(courseParam));
+  //     try {
+  //       setCourseLoading(true);
+  //       const param: TFavoriteCourseParam = {
+  //         major: courseParam.major,
+  //         season: courseParam.season,
+  //         place: courseParam.place,
+  //         course_time: courseParam.time,
+  //         sortBy: courseParam.sortBy,
+  //         offset: courseParam.offset,
+  //         favorite: courseParam.favorite,
+  //         year: courseParam.year,
+  //         class_format: courseParam.classFormat,
+  //         code: starCodeList,
+  //       };
+  //       const courseCount = await getCourseCountPosts(param);
+  //       setCourseCount(courseCount);
+  //       const courseInfo = await getCourseInfoPosts(param);
+  //       setCourseInfoData(courseInfo);
+  //     } catch (error) {
+  //       console.log(error);
+  //     } finally {
+  //       setCourseLoading(false);
+  //     }
+  //   };
 
-    fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [courseParam]);
+  //   fetchData();
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [courseParam]);
 
-  useEffect(() => {
-    saveToCookie("teacherParam", JSON.stringify(teacherParam));
+  // useEffect(() => {
+  //   saveToCookie("teacherParam", JSON.stringify(teacherParam));
 
-    const fetchData = async () => {
-      try {
-        setTeacherLoading(true);
-        const teacherCount = await getTeacherCountPosts(teacherParam);
-        setTeacherCount(teacherCount);
-        const teacherInfo = await getTeacherGradesPosts(teacherParam);
-        setTeacherList(teacherInfo);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setTeacherLoading(false);
-      }
-    };
-    fetchData();
-  }, [teacherParam]);
+  //   const fetchData = async () => {
+  //     try {
+  //       setTeacherLoading(true);
+  //       const teacherCount = await getTeacherCountPosts(teacherParam);
+  //       setTeacherCount(teacherCount);
+  //       const teacherInfo = await getTeacherGradesPosts(teacherParam);
+  //       setTeacherList(teacherInfo);
+  //     } catch (error) {
+  //       console.log(error);
+  //     } finally {
+  //       setTeacherLoading(false);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [teacherParam]);
 
   return (
     <div className="w-screen h-screen">
