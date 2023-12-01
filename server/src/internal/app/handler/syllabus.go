@@ -38,7 +38,7 @@ func newSyllabusResponse(s *domain.Syllabus) *syllabusResponse {
 func corsSetSyllabus(w http.ResponseWriter) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Access-Allow-Methods", "GET")
+	w.Header().Set("Access-Control-Allow-Methods", "GET")
 }
 
 func GetSyllabusOfCode(db *sql.DB) http.HandlerFunc {

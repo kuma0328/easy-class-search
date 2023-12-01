@@ -35,7 +35,7 @@ export const Course = ({
         <div className="justify-between mt-2 border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden p-5 bg-white shadow-md">
           <div className="flex flex-col h-14">
             <div className="flex justify-between">
-              <span className="text-xl">{courseInfo.title}</span>
+              <span className="text-xl truncate">{courseInfo.title}</span>
               <button
                 className="hover:opacity-50 p-1 rounded-full"
                 onClick={(e) => handleStarButtonClick(e, courseInfo.code)}
