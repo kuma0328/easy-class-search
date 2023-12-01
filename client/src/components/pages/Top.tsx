@@ -373,10 +373,15 @@ export const Top = () => {
             <MoreInfo
               handleBackClick={handleCourseBackClick}
               handleNextClick={handleCourseNextClick}
-              isFirstData={courseInfoData === null || courseParam.offset === 0}
+              isFirstData={
+                courseInfoData === null ||
+                courseParam.offset === 0 ||
+                courseInfoData.length === 0
+              }
               isLastData={
                 courseInfoData === null ||
-                courseParam.offset + 30 >= courseCount?.course_count
+                courseParam.offset + 30 >= courseCount?.course_count ||
+                courseInfoData.length === 0
               }
             />
           </div>

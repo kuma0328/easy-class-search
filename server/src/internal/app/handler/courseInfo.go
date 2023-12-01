@@ -111,7 +111,7 @@ func makeCourseInfoFilter(r *http.Request) map[string][]string {
 func corsSetCourseInfo(w http.ResponseWriter) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Access-Allow-Methods", "GET")
+	w.Header().Set("Access-Control-Allow-Methods", "GET")
 }
 
 func GetCourseInfoListWithFliter(db *sql.DB) http.HandlerFunc {

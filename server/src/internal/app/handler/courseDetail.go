@@ -78,7 +78,7 @@ func newGetCourseDetailOfCodeResponse(c domain.CourseDetail) *courseDetailRespon
 func corsSetCourseDetail(w http.ResponseWriter) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Access-Allow-Methods", "GET")
+	w.Header().Set("Access-Control-Allow-Methods", "GET")
 }
 
 func GetCourseDetailOfCode(db *sql.DB) http.HandlerFunc {
