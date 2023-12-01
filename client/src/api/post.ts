@@ -84,6 +84,7 @@ export const getCommentByCodePosts = async (
   code: string | undefined
 ): Promise<TComment[]> => {
   const serverURL = process.env.REACT_APP_SERVER_URL;
+
   const result = await axios.get(`${serverURL}/comment?code=${code}`);
   return result.data;
 };
