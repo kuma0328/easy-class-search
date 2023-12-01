@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://13.208.174.199/",
+  "proxy": "https://www.d-classfinder.com/",
   "baseUrl": ".",
   "dependencies": {
     "@emotion/react": "^11.11.1",
