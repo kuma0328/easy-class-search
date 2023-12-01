@@ -3,6 +3,7 @@ package web
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/kuma0328/easy-class-search/config"
@@ -15,7 +16,7 @@ func InitRouter() {
 
 	db, err := database.NewDB(c.DBInfo)
 	if err != nil {
-		panic(err)
+		log.Println(err)
 	}
 	defer db.Close()
 
@@ -23,8 +24,9 @@ func InitRouter() {
 
 	addr := c.HTTTPInfo.Addr
 	fmt.Println("Server Listening", addr)
-	if err := http.ListenAndServe(addr, nil); err != nil {
-		fmt.Println("Server Error:", err.Error())
+	log.Printf("listening on port %s", addr)
+	if err := http.ListenAndServe(":"+addr, nil); err != nil {
+		log.Fatal(err)
 	}
 }
 

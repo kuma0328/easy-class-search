@@ -1,7 +1,7 @@
 package config
 
 import (
-	"fmt"
+	"log"
 	"os"
 )
 
@@ -23,7 +23,11 @@ type DBInfo struct {
 }
 
 func LoadConfig() *appConfig {
-	addr := ":" + os.Getenv("PORT")
+	addr := os.Getenv("PORT")
+	if addr == "" {
+		addr = "8080"
+		log.Printf("defaulting to addr %s", addr)
+	}
 
 	httpInfo := &HTTPInfo{
 		Addr: addr,
@@ -35,7 +39,6 @@ func LoadConfig() *appConfig {
 	dbName := os.Getenv("POSTGRES_DB")
 	dbHost := os.Getenv("POSTGRES_HOST")
 
-	fmt.Println(dbUser, dbPassWord, dbAddr, dbName)
 	dbInfo := &DBInfo{
 		DBUser:     dbUser,
 		DBPassWord: dbPassWord,

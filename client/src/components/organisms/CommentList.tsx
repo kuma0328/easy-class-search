@@ -46,7 +46,7 @@ export const CommentList = ({
       </div>
       <div>
         <>
-          {commentList !== null ? (
+          {commentList !== null && commentList !== undefined ? (
             commentList.map((item, i) => (
               <div className="p-3 flex flex-row " key={i}>
                 <AccountCircleIcon fontSize="large" />
