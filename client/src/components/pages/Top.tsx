@@ -36,22 +36,26 @@ export const Top = () => {
 
   // Cookie から情報を読み取る関数
   const readFromCookie = (key: string): string | null => {
-    const cookies = document.cookie.split(";");
+    document.cookie = "SameSite=None; Secure";
+    const cookies = decodeURIComponent(document.cookie).split(";");
     for (const cookie of cookies) {
       const [cookieKey, cookieValue] = cookie.trim().split("=");
       if (cookieKey === key) {
         return cookieValue;
       }
     }
-
     return null;
   };
 
   const readCourseParamCookie = (): TCourseParam => {
     const storedCourseParam = readFromCookie("courseParam");
     if (storedCourseParam) {
-      const parsedCourseParam: TCourseParam = JSON.parse(storedCourseParam);
-      return parsedCourseParam;
+      try {
+        const parsedCourseParam: TCourseParam = JSON.parse(storedCourseParam);
+        return parsedCourseParam;
+      } catch (error) {
+        return initialCourseParam;
+      }
     }
     return initialCourseParam;
   };
@@ -59,8 +63,13 @@ export const Top = () => {
   const readTeacherParamCookie = (): TTeacherParam => {
     const storedTeacherParam = readFromCookie("teacherParam");
     if (storedTeacherParam) {
-      const parsedTeacherParam: TTeacherParam = JSON.parse(storedTeacherParam);
-      return parsedTeacherParam;
+      try {
+        const parsedTeacherParam: TTeacherParam =
+          JSON.parse(storedTeacherParam);
+        return parsedTeacherParam;
+      } catch (error) {
+        return initialTeacherParam;
+      }
     }
     return initialTeacherParam;
   };
@@ -68,8 +77,12 @@ export const Top = () => {
   const readStarCodeListCookie = (): string[] => {
     const storedStarCodeParam = readFromCookie("starCodeList");
     if (storedStarCodeParam) {
-      const parsedStarCodeParam: string[] = JSON.parse(storedStarCodeParam);
-      return parsedStarCodeParam;
+      try {
+        const parsedStarCodeParam: string[] = JSON.parse(storedStarCodeParam);
+        return parsedStarCodeParam;
+      } catch (error) {
+        return [];
+      }
     }
     return [];
   };
