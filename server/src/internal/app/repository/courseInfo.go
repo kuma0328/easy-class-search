@@ -31,15 +31,14 @@ func addSortQuery(s string, query *string, filters map[string][]string) {
 		*query += " ORDER BY CASE WHEN rate_a = -1 THEN 1 ELSE 0 END,"
 		if param[0] == "F率昇順" {
 			*query += " rate_f ASC"
-		}
-		if param[0] == "F率降順" {
+		} else if param[0] == "F率降順" {
 			*query += " rate_f DESC"
-		}
-		if param[0] == "A率昇順" {
+		} else if param[0] == "A率昇順" {
 			*query += " rate_a ASC"
-		}
-		if param[0] == "A率降順" {
+		} else if param[0] == "A率降順" {
 			*query += " rate_a DESC"
+		} else {
+			*query += " rate_f ASC"
 		}
 	}
 }
@@ -109,7 +108,6 @@ func (cr *courseInfoRepository) GetCourseInfoListWithFliter(ctx context.Context,
 		return []*domain.CourseInfo{}, err
 	}
 	defer rows.Close()
-
 	var coursesInfo []*domain.CourseInfo
 
 	for rows.Next() {

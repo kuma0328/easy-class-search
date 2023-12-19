@@ -47,7 +47,7 @@ func (tr *teacherRepository) GetTeacherAll(ctx context.Context, filters map[stri
 	var params []interface{}
 
 	makeGetCourseInfoQuery(&query, filters, &params)
-	addOffsetQuery("offset", &query, filters, &params)
+	addOffsetQuery("teacherOffset", &query, filters, &params)
 
 	var teacherList []domain.Teacher
 
