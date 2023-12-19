@@ -57,7 +57,7 @@ func newGetTeacherAllResponse(t []domain.Teacher) []teacherResponse {
 
 func makeTeacherFilter(r *http.Request) map[string][]string {
 	filters := make(map[string][]string)
-	getParam(r, "offset", filters)
+	getParam(r, "teacherOffset", filters)
 	getParam(r, "major", filters)
 	return filters
 }

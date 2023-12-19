@@ -1,6 +1,7 @@
 interface TTeacherParam {
+  id: string;
   major: string;
-  offset: number;
+  teacherOffset: number;
 }
 
 export default TTeacherParam;

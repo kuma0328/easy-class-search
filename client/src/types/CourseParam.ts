@@ -1,10 +1,11 @@
 interface TCourseParam {
+  id: string;
   major: string;
   season: string;
   place: string;
   time: string[];
   sortBy: string;
-  offset: number;
+  courseOffset: number;
   favorite: boolean;
   year: number;
   classFormat: string;

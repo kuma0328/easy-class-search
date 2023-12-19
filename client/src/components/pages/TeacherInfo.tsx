@@ -1,38 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getCourseInfoByTeacherPosts } from "src/api/post";
+import {
+  addStarCodePosts,
+  deleteStarCodePosts,
+  getCourseInfoByTeacherPosts,
+  getStarCodePosts,
+} from "src/api/post";
 import TCourse from "src/types/Course";
 import CourseList from "../organisms/CourseList";
 import Title from "../atoms/Title";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import NoData from "../atoms/NoData";
 import Loading from "../atoms/Loading";
-
+import { v4 as uuidv4 } from "uuid";
 export const TeacherInfo = () => {
   const { id } = useParams<{ id: string }>();
   const [courseData, setCourseData] = useState<TCourse[]>([]);
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const res = await getCourseInfoByTeacherPosts(id);
-        setCourseData(res);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [id]);
-  // Cookie に情報を保存する関数
-  const saveToCookie = (key: string, value: string) => {
-    document.cookie = `${key}=${value}; expires=${new Date(
-      Date.now() + 365 * 24 * 60 * 60 * 1000
-    ).toUTCString()}; path=/`;
-  };
+  const [userID, setUserID] = useState("");
 
   // Cookie から情報を読み取る関数
   const readFromCookie = (key: string): string | null => {
@@ -46,19 +31,31 @@ export const TeacherInfo = () => {
 
     return null;
   };
-  const readStarCodeListCookie = (): string[] => {
-    const storedStarCodeParam = readFromCookie("starCodeList");
-    if (storedStarCodeParam) {
-      const parsedStarCodeParam: string[] = JSON.parse(storedStarCodeParam);
-      return parsedStarCodeParam;
-    }
-    return [];
-  };
-  const [starCodeList, setStarCodeList] = useState<string[]>(() =>
-    readStarCodeListCookie()
-  );
+
+  useEffect(() => {
+    let userId = readFromCookie("user");
+    if (!userId) userId = uuidv4();
+    setUserID(userId);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const res = await getCourseInfoByTeacherPosts(id);
+        setCourseData(res);
+        const saveStarCodeList = await getStarCodePosts(userId ? userId : "");
+        if (saveStarCodeList) setStarCodeList(saveStarCodeList);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+  const [starCodeList, setStarCodeList] = useState<TStarCode[]>([]);
   const isStarCode = (code: string): boolean => {
-    return starCodeList.includes(code);
+    return starCodeList.some((item) => item.code === code);
   };
 
   const handleStarButtonClick = (
@@ -67,15 +64,20 @@ export const TeacherInfo = () => {
   ) => {
     event.preventDefault();
     event.stopPropagation();
-    let newStarCodeList: string[];
-    const codeList: string[] = readStarCodeListCookie();
-    if (codeList.includes(clickCode)) {
-      newStarCodeList = codeList.filter((code) => code !== clickCode);
-    } else {
-      newStarCodeList = [...codeList, clickCode];
-    }
-    setStarCodeList(newStarCodeList);
-    saveToCookie("starCodeList", JSON.stringify(newStarCodeList));
+    setStarCodeList((prevList) => {
+      if (isStarCode(clickCode)) {
+        // clickCode が starCodeList に存在する場合は削除
+        deleteStarCodePosts({
+          id: userID,
+          code: clickCode,
+        });
+        return prevList.filter((item) => item.code !== clickCode);
+      } else {
+        // clickCode が starCodeList に存在しない場合は追加
+        addStarCodePosts({ id: userID, code: clickCode });
+        return [...prevList, { id: userID, code: clickCode }];
+      }
+    });
   };
   return (
     <>

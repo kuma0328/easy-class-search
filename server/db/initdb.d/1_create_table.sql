@@ -62,3 +62,30 @@ CREATE TABLE IF NOT EXISTS teacher_rate (
   rate_d DOUBLE PRECISION,
   rate_f DOUBLE PRECISION
 );
+
+-- "star_code_list" テーブル作成
+CREATE TABLE IF NOT EXISTS star_code (
+  id UUID NOT NULL,
+  code TEXT
+);
+
+-- "course_param" テーブル作成
+CREATE TABLE IF NOT EXISTS course_param (
+  id UUID NOT NULL PRIMARY KEY,
+  major TEXT,
+  season TEXT,
+  place TEXT,
+  course_time TEXT,
+  sort_by TEXT,
+  course_offset INT,
+  favorite BOOLEAN,
+  year INT,
+  class_format TEXT
+);
+
+-- "teacher_param" テーブルの作成
+CREATE TABLE IF NOT EXISTS teacher_param (
+  id UUID NOT NULL PRIMARY KEY,
+  major TEXT,
+  teacher_offset INT
+);

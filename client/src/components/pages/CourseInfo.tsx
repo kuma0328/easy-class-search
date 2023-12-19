@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  addCommentByCodePostts,
+  addCommentByCodePosts,
   getCommentByCodePosts,
   getCourseDetailPosts,
 } from "src/api/post";
@@ -27,7 +27,7 @@ export const CourseInfo = () => {
       if (param.comment.trim() === "") {
         return;
       }
-      const res = await addCommentByCodePostts(param);
+      const res = await addCommentByCodePosts(param);
       setCommentParam({
         code: id,
         comment: "",

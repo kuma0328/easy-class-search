@@ -104,7 +104,6 @@ func makeCourseInfoFilter(r *http.Request) map[string][]string {
 	getParam(r, "year", filters)
 	getParam(r, "class_format", filters)
 	getParamList(r, "code", filters)
-
 	return filters
 }
 

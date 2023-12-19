@@ -4,6 +4,7 @@ import TCommentParam from "src/types/CommentParam";
 import TCourseInfo from "src/types/Course";
 import TCourseCount from "src/types/CourseCount";
 import TCourseDetail from "src/types/CourseDetail";
+import TCourseParam from "src/types/CourseParam";
 import TFavoriteCourseParam from "src/types/FavoriteCourseParam";
 import TRadarChart from "src/types/RadarChart";
 import TSyllabus from "src/types/Syllabus";
@@ -89,10 +90,58 @@ export const getCommentByCodePosts = async (
   return result.data;
 };
 
-export const addCommentByCodePostts = async (
+export const addCommentByCodePosts = async (
   params: TCommentParam
 ): Promise<TComment> => {
   const serverURL = process.env.REACT_APP_SERVER_URL;
   const result = await axios.post(`${serverURL}/comment`, params);
+  return result.data;
+};
+
+export const getStarCodePosts = async (
+  params: string
+): Promise<TStarCode[]> => {
+  const serverURL = process.env.REACT_APP_SERVER_URL;
+  const result = await axios.get(`${serverURL}/star_code?id=${params}`);
+  return result.data;
+};
+
+export const addStarCodePosts = async (params: TStarCode) => {
+  const serverURL = process.env.REACT_APP_SERVER_URL;
+  const result = await axios.post(`${serverURL}/star_code`, params);
+  return result.data;
+};
+
+export const deleteStarCodePosts = async (params: TStarCode) => {
+  const serverURL = process.env.REACT_APP_SERVER_URL;
+  const result = await axios.delete(`${serverURL}/star_code`, { data: params });
+  return result.data;
+};
+
+export const getCourseParamPosts = async (
+  params: string
+): Promise<TCourseParam> => {
+  const serverURL = process.env.REACT_APP_SERVER_URL;
+  const result = await axios.get(`${serverURL}/course_param?id=${params}`);
+  return result.data;
+};
+
+export const getTeacherParam = async (
+  params: string
+): Promise<TTeacherParam> => {
+  const serverURL = process.env.REACT_APP_SERVER_URL;
+  const result = await axios.get(`${serverURL}/teacher_param?id=${params}`);
+  return result.data;
+};
+
+export const addCourseParamByIdPosts = async (params: TCourseParam) => {
+  const serverURL = process.env.REACT_APP_SERVER_URL;
+  const result = await axios.post(`${serverURL}/course_param`, params);
+  return result.data;
+};
+
+export const addTeacherParamByIdPosts = async (params: TTeacherParam) => {
+  const serverURL = process.env.REACT_APP_SERVER_URL;
+  const result = await axios.post(`${serverURL}/teacher_param`, params);
   return result.data;
 };

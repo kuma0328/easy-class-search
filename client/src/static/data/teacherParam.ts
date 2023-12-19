@@ -1,8 +1,9 @@
 import TTeacherParam from "src/types/TeacherParam";
 
 const initialTeacherParam: TTeacherParam = {
+  id: "",
   major: "",
-  offset: 0,
+  teacherOffset: 0,
 };
 
 export default initialTeacherParam;
