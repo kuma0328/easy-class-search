@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import {
+  addCourseParamByIdPosts,
+  addStarCodePosts,
+  addTeacherParamByIdPosts,
+  deleteStarCodePosts,
   getCourseCountPosts,
   getCourseInfoPosts,
+  getCourseParamPosts,
+  getStarCodePosts,
   getTeacherCountPosts,
   getTeacherGradesPosts,
+  getTeacherParam,
 } from "src/api/post";
 import TCourseInfo from "src/types/Course";
 import CourseList from "../organisms/CourseList";
@@ -19,12 +26,12 @@ import TeacherColmuns from "../organisms/TeacherColmuns";
 import MoreInfo from "../molecules/MoreInfo";
 import Footer from "../molecules/Footer";
 import TRadarChart from "src/types/RadarChart";
-import { isEqual } from "lodash";
 import TFavoriteCourseParam from "src/types/FavoriteCourseParam";
 import TCourseCount from "src/types/CourseCount";
 import NoData from "../atoms/NoData";
 import Loading from "../atoms/Loading";
 import TTeacherCount from "src/types/TeacherCount";
+import { v4 as uuidv4 } from "uuid";
 
 export const Top = () => {
   // Cookie に情報を保存する関数
@@ -33,77 +40,39 @@ export const Top = () => {
       Date.now() + 365 * 24 * 60 * 60 * 1000
     ).toUTCString()}; path=/`;
   };
-
   // Cookie から情報を読み取る関数
   const readFromCookie = (key: string): string | null => {
-    document.cookie = "SameSite=None; Secure";
-    const cookies = decodeURIComponent(document.cookie).split(";");
-    for (const cookie of cookies) {
-      const [cookieKey, cookieValue] = cookie.trim().split("=");
-      if (cookieKey === key) {
-        return cookieValue;
+    try {
+      document.cookie = "SameSite=None; Secure";
+      const cookies = decodeURIComponent(document.cookie).split(";");
+      for (const cookie of cookies) {
+        const [cookieKey, cookieValue] = cookie.trim().split("=");
+        if (cookieKey === key) {
+          return cookieValue;
+        }
       }
+      return null;
+    } catch (error) {
+      return null;
     }
-    return null;
   };
 
-  const readCourseParamCookie = (): TCourseParam => {
-    const storedCourseParam = readFromCookie("courseParam");
-    if (storedCourseParam) {
-      try {
-        const parsedCourseParam: TCourseParam = JSON.parse(storedCourseParam);
-        return parsedCourseParam;
-      } catch (error) {
-        return initialCourseParam;
-      }
-    }
-    return initialCourseParam;
-  };
-
-  const readTeacherParamCookie = (): TTeacherParam => {
-    const storedTeacherParam = readFromCookie("teacherParam");
-    if (storedTeacherParam) {
-      try {
-        const parsedTeacherParam: TTeacherParam =
-          JSON.parse(storedTeacherParam);
-        return parsedTeacherParam;
-      } catch (error) {
-        return initialTeacherParam;
-      }
-    }
-    return initialTeacherParam;
-  };
-
-  const readStarCodeListCookie = (): string[] => {
-    const storedStarCodeParam = readFromCookie("starCodeList");
-    if (storedStarCodeParam) {
-      try {
-        const parsedStarCodeParam: string[] = JSON.parse(storedStarCodeParam);
-        return parsedStarCodeParam;
-      } catch (error) {
-        return [];
-      }
-    }
-    return [];
-  };
-
-  const [courseParam, setCourseParam] = useState<TCourseParam>(() =>
-    readCourseParamCookie()
+  const [courseParam, setCourseParam] = useState<TCourseParam>(
+    () => initialCourseParam
   );
   const [courseCount, setCourseCount] = useState<TCourseCount>();
   const [teacherCount, setTeacherCount] = useState<TTeacherCount>();
   const [courseInfoData, setCourseInfoData] = useState<TCourseInfo[]>([]);
   const [isFilter, setIsFilter] = useState<boolean>(false);
-  const [teacherParam, setTeacherParam] = useState<TTeacherParam>(() =>
-    readTeacherParamCookie()
+  const [teacherParam, setTeacherParam] = useState<TTeacherParam>(
+    () => initialTeacherParam
   );
   const [teacherList, setTeacherList] = useState<TRadarChart[]>([]);
-  const [starCodeList, setStarCodeList] = useState<string[]>(() =>
-    readStarCodeListCookie()
-  );
+  const [starCodeList, setStarCodeList] = useState<TStarCode[]>([]);
 
+  const [userID, setUserID] = useState<string>("");
   const isStarCode = (code: string): boolean => {
-    return starCodeList.includes(code);
+    return starCodeList.some((item) => item.code === code);
   };
 
   const [courseLoading, setCourseLoading] = useState(true);
@@ -118,46 +87,51 @@ export const Top = () => {
     }
     event.preventDefault();
     event.stopPropagation();
-    let newStarCodeList: string[];
-    const codeList: string[] = readStarCodeListCookie();
-    if (codeList.includes(clickCode)) {
-      newStarCodeList = codeList.filter((code) => code !== clickCode);
-    } else {
-      newStarCodeList = [...codeList, clickCode];
-    }
-    setStarCodeList(newStarCodeList);
-    saveToCookie("starCodeList", JSON.stringify(newStarCodeList));
+    setStarCodeList((prevList) => {
+      if (isStarCode(clickCode)) {
+        // clickCode が starCodeList に存在する場合は削除
+        deleteStarCodePosts({
+          id: userID,
+          code: clickCode,
+        });
+        return prevList.filter((item) => item.code !== clickCode);
+      } else {
+        // clickCode が starCodeList に存在しない場合は追加
+        addStarCodePosts({ id: userID, code: clickCode });
+        return [...prevList, { id: userID, code: clickCode }];
+      }
+    });
   };
 
   const courseParamReset = () => {
-    setCourseParam(initialCourseParam);
+    setCourseParam({ ...initialCourseParam, id: userID });
   };
   const changeParamOfMajor = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCourseParam((prevParam) => ({
       ...prevParam,
       major: event.target.value,
-      offset: 0,
+      courseOffset: 0,
     }));
   };
   const changeParamOfSeason = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCourseParam((prevParam) => ({
       ...prevParam,
       season: event.target.value,
-      offset: 0,
+      courseOffset: 0,
     }));
   };
   const changeParamOfPlace = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCourseParam((prevParam) => ({
       ...prevParam,
       place: event.target.value,
-      offset: 0,
+      courseOffset: 0,
     }));
   };
   const changeParamOfYear = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCourseParam((prevParam) => ({
       ...prevParam,
       year: parseInt(event.target.value, 10),
-      offset: 0,
+      courseOffset: 0,
     }));
   };
 
@@ -167,7 +141,7 @@ export const Top = () => {
     setCourseParam((prevParam) => ({
       ...prevParam,
       classFormat: event.target.value,
-      offset: 0,
+      courseOffset: 0,
     }));
   };
   const changeParamOfFavorite = () => {
@@ -177,7 +151,7 @@ export const Top = () => {
     setCourseParam((prevParam) => ({
       ...prevParam,
       favorite: !prevParam.favorite,
-      offset: 0,
+      courseOffset: 0,
     }));
   };
 
@@ -185,21 +159,21 @@ export const Top = () => {
     setCourseParam((prevParam) => ({
       ...prevParam,
       time: [...prevParam.time, newTime], // 新しい要素を追加
-      offset: 0,
+      courseOffset: 0,
     }));
   };
   const removeTime = (timeToRemove: string) => {
     setCourseParam((prevParam) => ({
       ...prevParam,
       time: prevParam.time.filter((time) => time !== timeToRemove), // 該当する要素を削除
-      offset: 0,
+      courseOffset: 0,
     }));
   };
   const changeParamOfSortBy = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCourseParam((prevParam) => ({
       ...prevParam,
       sortBy: event.target.value,
-      offset: 0,
+      courseOffset: 0,
     }));
   };
 
@@ -216,14 +190,13 @@ export const Top = () => {
       return;
     }
     setActiveTab(tab);
-    saveToCookie("activeTab", JSON.stringify(tab));
   };
 
   const teacherParamOfMajor = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setTeacherParam((prevParam) => ({
       ...prevParam,
       major: event.target.value,
-      offset: 0,
+      teacherOffset: 0,
     }));
   };
 
@@ -233,7 +206,7 @@ export const Top = () => {
     });
     setCourseParam((prevParam) => ({
       ...prevParam,
-      offset: prevParam.offset - 30,
+      courseOffset: prevParam.courseOffset - 30,
     }));
   };
 
@@ -243,7 +216,7 @@ export const Top = () => {
     });
     setCourseParam((prevParam) => ({
       ...prevParam,
-      offset: prevParam.offset + 30,
+      courseOffset: prevParam.courseOffset + 30,
     }));
   };
 
@@ -253,7 +226,7 @@ export const Top = () => {
     });
     setTeacherParam((prevParam) => ({
       ...prevParam,
-      offset: prevParam.offset - 30,
+      teacherOffset: prevParam.teacherOffset - 30,
     }));
   };
 
@@ -263,44 +236,38 @@ export const Top = () => {
     });
     setTeacherParam((prevParam) => ({
       ...prevParam,
-      offset: prevParam.offset + 30,
+      teacherOffset: prevParam.teacherOffset + 30,
     }));
   };
 
   useEffect(() => {
-    const storedTeacherParam = readFromCookie("teacherParam");
-    if (storedTeacherParam) {
-      const parsedTeacherParam: TTeacherParam = JSON.parse(storedTeacherParam);
-      if (!isEqual(parsedTeacherParam, teacherParam)) {
-        setTeacherParam(parsedTeacherParam);
-      }
-    }
-
-    const storedActiveTab = readFromCookie("activeTab");
-    if (storedActiveTab) {
-      const parsedActiveTab: string = JSON.parse(storedActiveTab);
-      setActiveTab(parsedActiveTab);
-    }
-
-    const storedCourseParam = readFromCookie("courseParam");
-    if (storedCourseParam) {
-      const parsedCourseParam: TCourseParam = JSON.parse(storedCourseParam);
-      if (!isEqual(parsedCourseParam, courseParam)) {
-        setCourseParam(parsedCourseParam);
-      }
-    }
-
-    const storedStarList = readFromCookie("starCodeList");
-    if (storedStarList) {
-      const parsedStarList: string[] = JSON.parse(storedStarList);
-      setStarCodeList(parsedStarList);
+    const userId = readFromCookie("user");
+    if (userId) {
+      setUserID(userId);
+      const fetchData = async () => {
+        const saveCourseParam = await getCourseParamPosts(userId);
+        setCourseParam(saveCourseParam);
+        const saveTeacherParam = await getTeacherParam(userId);
+        setTeacherParam(saveTeacherParam);
+        const saveStarCodeList = await getStarCodePosts(userId);
+        if (saveStarCodeList) setStarCodeList(saveStarCodeList);
+      };
+      fetchData();
+    } else {
+      const id = uuidv4();
+      setUserID(id);
+      saveToCookie("user", id);
+      setCourseParam({ ...initialCourseParam, id: id });
+      setTeacherParam({ ...initialTeacherParam, id: id });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
+    if (courseParam.id === "") return;
     const fetchData = async () => {
-      saveToCookie("courseParam", JSON.stringify(courseParam));
+      addCourseParamByIdPosts(courseParam);
+
       try {
         setCourseLoading(true);
         const param: TFavoriteCourseParam = {
@@ -309,11 +276,11 @@ export const Top = () => {
           place: courseParam.place,
           course_time: courseParam.time,
           sortBy: courseParam.sortBy,
-          offset: courseParam.offset,
+          offset: courseParam.courseOffset,
           favorite: courseParam.favorite,
           year: courseParam.year,
           class_format: courseParam.classFormat,
-          code: starCodeList,
+          code: starCodeList.map((item) => item.code),
         };
         const courseCount = await getCourseCountPosts(param);
         setCourseCount(courseCount);
@@ -331,8 +298,8 @@ export const Top = () => {
   }, [courseParam]);
 
   useEffect(() => {
-    saveToCookie("teacherParam", JSON.stringify(teacherParam));
-
+    if (teacherParam.id === "") return;
+    addTeacherParamByIdPosts(teacherParam);
     const fetchData = async () => {
       try {
         setTeacherLoading(true);
@@ -388,12 +355,12 @@ export const Top = () => {
               handleNextClick={handleCourseNextClick}
               isFirstData={
                 courseInfoData === null ||
-                courseParam.offset === 0 ||
+                courseParam.courseOffset === 0 ||
                 courseInfoData.length === 0
               }
               isLastData={
                 courseInfoData === null ||
-                courseParam.offset + 30 >= courseCount?.course_count ||
+                courseParam.courseOffset + 30 >= courseCount?.course_count ||
                 courseInfoData.length === 0
               }
             />
@@ -418,10 +385,12 @@ export const Top = () => {
             <MoreInfo
               handleBackClick={handleTeacherBackClick}
               handleNextClick={handleTeacherNextClick}
-              isFirstData={teacherList === null || teacherParam.offset === 0}
+              isFirstData={
+                teacherList === null || teacherParam.teacherOffset === 0
+              }
               isLastData={
                 teacherList === null ||
-                teacherParam.offset + 30 >= teacherCount?.teacher_count
+                teacherParam.teacherOffset + 30 >= teacherCount?.teacher_count
               }
             />
           </div>
