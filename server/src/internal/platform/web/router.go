@@ -50,4 +50,5 @@ func newRouter(db *sql.DB) {
 	http.HandleFunc("/course_param", handler.GetCourseParamById(db))
 	http.HandleFunc("/teacher_param", handler.GetTeacherParamById(db))
 	http.HandleFunc("/star_code", handler.GetStarCodeById(db))
+	http.HandleFunc("/active_tab", handler.GetActiveTabById(db))
 }

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {
+  addActiveTabByIdPosts,
   addCourseParamByIdPosts,
   addStarCodePosts,
   addTeacherParamByIdPosts,
   deleteStarCodePosts,
+  getActiveTabByIdPosts,
   getCourseCountPosts,
   getCourseInfoPosts,
   getCourseParamPosts,
@@ -32,6 +34,8 @@ import NoData from "../atoms/NoData";
 import Loading from "../atoms/Loading";
 import TTeacherCount from "src/types/TeacherCount";
 import { v4 as uuidv4 } from "uuid";
+import TActiveTab from "src/types/ActiveTab";
+import initialActiveTab from "src/static/data/activeTab";
 
 export const Top = () => {
   // Cookie に情報を保存する関数
@@ -183,13 +187,18 @@ export const Top = () => {
   const onFilterFalse = () => {
     setIsFilter(false);
   };
-  const [activeTab, setActiveTab] = useState("授業検索"); // 初期値を設定
+  const [activeTab, setActiveTab] = useState<TActiveTab>(
+    () => initialActiveTab
+  ); // 初期値を設定
 
-  const handleTabClick = (tab: React.SetStateAction<string>) => {
+  const handleTabClick = (tab: string) => {
     if (isFilter) {
       return;
     }
-    setActiveTab(tab);
+    setActiveTab((prevParam) => ({
+      ...prevParam,
+      activeTab: tab,
+    }));
   };
 
   const teacherParamOfMajor = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -246,11 +255,16 @@ export const Top = () => {
       setUserID(userId);
       const fetchData = async () => {
         const saveCourseParam = await getCourseParamPosts(userId);
-        setCourseParam(saveCourseParam);
+        if (saveCourseParam.id === userId) setCourseParam(saveCourseParam);
+        else setCourseParam({ ...initialCourseParam, id: userId });
         const saveTeacherParam = await getTeacherParam(userId);
-        setTeacherParam(saveTeacherParam);
+        if (saveTeacherParam.id === userId) setTeacherParam(saveTeacherParam);
+        else setTeacherParam({ ...initialTeacherParam, id: userId });
         const saveStarCodeList = await getStarCodePosts(userId);
         if (saveStarCodeList) setStarCodeList(saveStarCodeList);
+        const saveActiveTab = await getActiveTabByIdPosts(userId);
+        if (saveActiveTab.id === userId) setActiveTab(saveActiveTab);
+        else setActiveTab({ ...initialActiveTab, id: userId });
       };
       fetchData();
     } else {
@@ -259,6 +273,7 @@ export const Top = () => {
       saveToCookie("user", id);
       setCourseParam({ ...initialCourseParam, id: id });
       setTeacherParam({ ...initialTeacherParam, id: id });
+      setActiveTab({ ...initialActiveTab, id: id });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -316,6 +331,11 @@ export const Top = () => {
     fetchData();
   }, [teacherParam]);
 
+  useEffect(() => {
+    if (activeTab.id === "") return;
+    addActiveTabByIdPosts(activeTab);
+  }, [activeTab]);
+
   return (
     <div className="w-screen h-screen">
       <div
@@ -324,8 +344,11 @@ export const Top = () => {
           isFilter ? onFilterFalse() : void 0;
         }}
       >
-        <TitleBar activeTab={activeTab} handleTabClick={handleTabClick} />
-        {activeTab === "授業検索" ? (
+        <TitleBar
+          activeTab={activeTab.activeTab}
+          handleTabClick={handleTabClick}
+        />
+        {activeTab.activeTab === "授業検索" ? (
           <div>
             <SortColmuns
               text={courseParam.sortBy}

@@ -59,6 +59,18 @@ type teacherParamResponse struct {
 	Offset int    `json:"teacherOffset"`
 }
 
+type activeTabResponse struct {
+	ID        string `json:"id"`
+	ActiveTab string `json:"activeTab"`
+}
+
+func newActiveTabResponse(a *domain.ActiveTab) *activeTabResponse {
+	return &activeTabResponse{
+		ID:        a.ID,
+		ActiveTab: a.ActiveTab,
+	}
+}
+
 func newTeacherParamResponse(t *domain.TeacherParam) *teacherParamResponse {
 	return &teacherParamResponse{
 		ID:     t.ID,
@@ -235,6 +247,46 @@ func GetTeacherParamById(db *sql.DB) http.HandlerFunc {
 				return
 			}
 			err = ucUser.AddTeacherParam(r.Context(), teacherParam)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+				return
+			}
+			w.WriteHeader(http.StatusOK)
+		}
+	}
+	return handler
+}
+
+func GetActiveTabById(db *sql.DB) http.HandlerFunc {
+	repoUser := repository.NewUserRepository(db)
+	ucUser := usecase.NewUserUsecase(repoUser)
+
+	handler := func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("Received Request for %s %s", r.Method, r.URL.Path)
+		corsSetUser(w)
+		if r.Method == http.MethodGet {
+			id := r.URL.Query().Get("id")
+			activeTab, err := ucUser.GetActiveTabById(r.Context(), id)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+				return
+			}
+			w.Header().Set("Content-Type", "application/json")
+			res := newActiveTabResponse(&activeTab)
+			if err := json.NewEncoder(w).Encode(res); err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+			}
+
+			w.WriteHeader(http.StatusOK)
+		}
+		if r.Method == http.MethodPost {
+			var activeTab domain.ActiveTab
+			err := json.NewDecoder(r.Body).Decode(&activeTab)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+				return
+			}
+			err = ucUser.AddActiveTabById(r.Context(), activeTab)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusBadRequest)
 				return

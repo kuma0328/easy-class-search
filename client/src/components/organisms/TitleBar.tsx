@@ -3,7 +3,7 @@ import Title from "../atoms/Title";
 import TabSwitcher from "../molecules/TabSwitcher";
 interface TitleBarProps {
   activeTab: string;
-  handleTabClick: (tab: React.SetStateAction<string>) => void;
+  handleTabClick: (tab: string) => void;
 }
 
 export const TitleBar = ({ activeTab, handleTabClick }: TitleBarProps) => {

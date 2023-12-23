@@ -1,4 +1,5 @@
 import axios from "axios";
+import TActiveTab from "src/types/ActiveTab";
 import TComment from "src/types/Comment";
 import TCommentParam from "src/types/CommentParam";
 import TCourseInfo from "src/types/Course";
@@ -143,5 +144,17 @@ export const addCourseParamByIdPosts = async (params: TCourseParam) => {
 export const addTeacherParamByIdPosts = async (params: TTeacherParam) => {
   const serverURL = process.env.REACT_APP_SERVER_URL;
   const result = await axios.post(`${serverURL}/teacher_param`, params);
+  return result.data;
+};
+
+export const addActiveTabByIdPosts = async (params: TActiveTab) => {
+  const serverURL = process.env.REACT_APP_SERVER_URL;
+  const result = await axios.post(`${serverURL}/active_tab`, params);
+  return result.data;
+};
+
+export const getActiveTabByIdPosts = async (params: string) => {
+  const serverURL = process.env.REACT_APP_SERVER_URL;
+  const result = await axios.get(`${serverURL}/active_tab?id=${params}`);
   return result.data;
 };

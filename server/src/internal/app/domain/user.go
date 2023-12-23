@@ -26,6 +26,11 @@ type TeacherParam struct {
 	TeacherOffset int
 }
 
+type ActiveTab struct {
+	ID        string
+	ActiveTab string
+}
+
 type UserRepository interface {
 	GetStarCodeById(ctx context.Context, id string) ([]*StarCode, error)
 	GetCourseParamById(ctx context.Context, id string) (CourseParam, error)
@@ -34,4 +39,6 @@ type UserRepository interface {
 	DeleteStarCode(ctx context.Context, starCode StarCode) error
 	AddCourseParam(ctx context.Context, courseParam CourseParam) error
 	AddTeacherParam(ctx context.Context, teacherParam TeacherParam) error
+	GetActiveTabById(ctx context.Context, id string) (ActiveTab, error)
+	AddActiveTabById(ctx context.Context, activeTab ActiveTab) error
 }
