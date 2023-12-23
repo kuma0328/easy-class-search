@@ -48,3 +48,13 @@ func (ui *userUsecase) DeleteStarCode(ctx context.Context, starCode domain.StarC
 	err := ui.userRepo.DeleteStarCode(ctx, starCode)
 	return err
 }
+
+func (ui *userUsecase) GetActiveTabById(ctx context.Context, id string) (domain.ActiveTab, error) {
+	u, err := ui.userRepo.GetActiveTabById(ctx, id)
+	return u, err
+}
+
+func (ui *userUsecase) AddActiveTabById(ctx context.Context, activeTab domain.ActiveTab) error {
+	err := ui.userRepo.AddActiveTabById(ctx, activeTab)
+	return err
+}

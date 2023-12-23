@@ -1,6 +1,6 @@
 interface TabSwitcherProps {
   activeTab: string;
-  handleTabClick: (tab: React.SetStateAction<string>) => void;
+  handleTabClick: (tab: string) => void;
 }
 
 export const TabSwitcher = ({
