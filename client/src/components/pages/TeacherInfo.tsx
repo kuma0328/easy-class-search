@@ -84,7 +84,7 @@ export const TeacherInfo = () => {
       <div className="bg-white w-screen h-screen">
         <div className="flex items-center justify-center flex-col w-full bg-gray-50 border-b-2">
           <div className="flex flex-row items-center">
-            <Link to="/">
+            <Link to="/teacher">
               <div className="left-0 top-0 fixed p-3 hover:opacity-50">
                 <ArrowBackIosIcon />
               </div>
