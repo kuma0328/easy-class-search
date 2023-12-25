@@ -26,11 +26,6 @@ type TeacherParam struct {
 	TeacherOffset int
 }
 
-type ActiveTab struct {
-	ID        string
-	ActiveTab string
-}
-
 type UserRepository interface {
 	GetStarCodeById(ctx context.Context, id string) ([]*StarCode, error)
 	GetCourseParamById(ctx context.Context, id string) (CourseParam, error)
