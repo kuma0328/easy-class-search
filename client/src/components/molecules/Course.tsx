@@ -5,7 +5,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 
 import Grades from "./Grades";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 interface CourseProps {
   courseInfo: TCourseInfo;
   handleStarButtonClick: (
@@ -22,6 +22,8 @@ export const Course = ({
   isStarCode,
   isFilter,
 }: CourseProps) => {
+  const navigate = useNavigate();
+
   const getClassFormatAfterSlash = () => {
     const slashIndex = courseInfo.class_format.indexOf("/");
     return slashIndex !== -1
@@ -29,9 +31,14 @@ export const Course = ({
       : courseInfo.class_format;
   };
 
+  const courseClick = (code: string) => {
+    if (isFilter) return;
+    navigate(`/course/${code}`);
+  };
+
   return (
     <>
-      <Link to={isFilter ? "#" : `/course/${courseInfo.code}`}>
+      <button onClick={() => courseClick(courseInfo.code)}>
         <div className="justify-between mt-2 border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden p-5 bg-white shadow-md">
           <div className="flex flex-col h-14">
             <div className="flex justify-between">
@@ -79,7 +86,7 @@ export const Course = ({
             </div>
           </div>
         </div>
-      </Link>
+      </button>
     </>
   );
 };

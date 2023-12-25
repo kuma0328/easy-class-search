@@ -40,7 +40,7 @@ export const Teacher = () => {
   );
   const [teacherCount, setTeacherCount] = useState<TTeacherCount>();
   const [teacherLoading, setTeacherLoading] = useState(true);
-  const [userID, setUserID] = useState<string>("");
+  const [, setUserID] = useState<string>("");
 
   const teacherParamOfMajor = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setTeacherParam((prevParam) => ({

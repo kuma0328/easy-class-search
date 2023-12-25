@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   PolarAngleAxis,
   PolarGrid,
@@ -14,9 +14,11 @@ interface TeacherInfoProps {
 }
 
 export const TeacherInfo = ({ data }: TeacherInfoProps) => {
+  const navigate = useNavigate();
+
   return (
     <>
-      <Link to={`/teacher/${data.teacher}`}>
+      <button onClick={() => navigate(`/teacher/${data.teacher}`)}>
         <div className="flex border-2 rounded-lg p-5 border-gray-200 border-opacity-60 overflow-hidden bg-white hover:opacity-60 shadow-md">
           <div className="w-1/2">
             <div className="text-gray-600 text-sm">名前</div>
@@ -46,7 +48,7 @@ export const TeacherInfo = ({ data }: TeacherInfoProps) => {
             </div>
           </div>
         </div>
-      </Link>
+      </button>
     </>
   );
 };

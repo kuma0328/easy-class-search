@@ -2,12 +2,10 @@ import React from "react";
 import CourseDetailBar from "../molecules/CourseDetailBar";
 import TCourseDetail from "src/types/CourseDetail";
 import CourseInfoList from "../organisms/CourseInfoList";
-import Title from "../atoms/Title";
 import CommentList from "../organisms/CommentList";
 import TComment from "src/types/Comment";
 import TCommentParam from "src/types/CommentParam";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { Link } from "react-router-dom";
+import Header from "../molecules/Header";
 interface CourseDetailProps {
   courseDetail: TCourseDetail;
   commentList: TComment[];
@@ -27,14 +25,7 @@ export const CourseDetail = ({
     <>
       <div className="bg-white w-screen h-screen">
         <div className="flex items-center justify-center flex-col w-full bg-gray-50 border p-3">
-          <div className="flex flex-row items-center">
-            <Link to="/">
-              <div className="left-0 top-0 fixed p-3 hover:opacity-50">
-                <ArrowBackIosIcon />
-              </div>
-              <Title title="同志社楽単サーチ" />
-            </Link>
-          </div>
+          <Header />
           <CourseDetailBar
             code={courseDetail.code}
             title={courseDetail.title}
