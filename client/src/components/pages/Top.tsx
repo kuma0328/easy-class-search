@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
-  addActiveTabByIdPosts,
   addCourseParamByIdPosts,
   addStarCodePosts,
-  addTeacherParamByIdPosts,
   deleteStarCodePosts,
-  getActiveTabByIdPosts,
   getCourseCountPosts,
   getCourseInfoPosts,
   getCourseParamPosts,
   getStarCodePosts,
-  getTeacherCountPosts,
-  getTeacherGradesPosts,
-  getTeacherParam,
 } from "src/api/post";
 import TCourseInfo from "src/types/Course";
 import CourseList from "../organisms/CourseList";
@@ -21,21 +15,13 @@ import SortColmuns from "../organisms/SortColmuns";
 import SelectGenreBarList from "../organisms/SelectGenreBarList";
 import TCourseParam from "src/types/CourseParam";
 import initialCourseParam from "src/static/data/courseParam";
-import TeacherList from "../organisms/TeacherList";
-import TTeacherParam from "src/types/TeacherParam";
-import initialTeacherParam from "src/static/data/teacherParam";
-import TeacherColmuns from "../organisms/TeacherColmuns";
 import MoreInfo from "../molecules/MoreInfo";
 import Footer from "../molecules/Footer";
-import TRadarChart from "src/types/RadarChart";
 import TFavoriteCourseParam from "src/types/FavoriteCourseParam";
 import TCourseCount from "src/types/CourseCount";
 import NoData from "../atoms/NoData";
 import Loading from "../atoms/Loading";
-import TTeacherCount from "src/types/TeacherCount";
 import { v4 as uuidv4 } from "uuid";
-import TActiveTab from "src/types/ActiveTab";
-import initialActiveTab from "src/static/data/activeTab";
 
 export const Top = () => {
   // Cookie に情報を保存する関数
@@ -65,13 +51,8 @@ export const Top = () => {
     () => initialCourseParam
   );
   const [courseCount, setCourseCount] = useState<TCourseCount>();
-  const [teacherCount, setTeacherCount] = useState<TTeacherCount>();
   const [courseInfoData, setCourseInfoData] = useState<TCourseInfo[]>([]);
   const [isFilter, setIsFilter] = useState<boolean>(false);
-  const [teacherParam, setTeacherParam] = useState<TTeacherParam>(
-    () => initialTeacherParam
-  );
-  const [teacherList, setTeacherList] = useState<TRadarChart[]>([]);
   const [starCodeList, setStarCodeList] = useState<TStarCode[]>([]);
 
   const [userID, setUserID] = useState<string>("");
@@ -80,7 +61,6 @@ export const Top = () => {
   };
 
   const [courseLoading, setCourseLoading] = useState(true);
-  const [teacherLoading, setTeacherLoading] = useState(true);
 
   const handleStarButtonClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -187,27 +167,6 @@ export const Top = () => {
   const onFilterFalse = () => {
     setIsFilter(false);
   };
-  const [activeTab, setActiveTab] = useState<TActiveTab>(
-    () => initialActiveTab
-  ); // 初期値を設定
-
-  const handleTabClick = (tab: string) => {
-    if (isFilter) {
-      return;
-    }
-    setActiveTab((prevParam) => ({
-      ...prevParam,
-      activeTab: tab,
-    }));
-  };
-
-  const teacherParamOfMajor = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setTeacherParam((prevParam) => ({
-      ...prevParam,
-      major: event.target.value,
-      teacherOffset: 0,
-    }));
-  };
 
   const handleCourseBackClick = () => {
     window.scrollTo({
@@ -229,26 +188,6 @@ export const Top = () => {
     }));
   };
 
-  const handleTeacherBackClick = () => {
-    window.scrollTo({
-      top: 0,
-    });
-    setTeacherParam((prevParam) => ({
-      ...prevParam,
-      teacherOffset: prevParam.teacherOffset - 30,
-    }));
-  };
-
-  const handleTeacherNextClick = () => {
-    window.scrollTo({
-      top: 0,
-    });
-    setTeacherParam((prevParam) => ({
-      ...prevParam,
-      teacherOffset: prevParam.teacherOffset + 30,
-    }));
-  };
-
   useEffect(() => {
     const userId = readFromCookie("user");
     if (userId) {
@@ -257,14 +196,8 @@ export const Top = () => {
         const saveCourseParam = await getCourseParamPosts(userId);
         if (saveCourseParam.id === userId) setCourseParam(saveCourseParam);
         else setCourseParam({ ...initialCourseParam, id: userId });
-        const saveTeacherParam = await getTeacherParam(userId);
-        if (saveTeacherParam.id === userId) setTeacherParam(saveTeacherParam);
-        else setTeacherParam({ ...initialTeacherParam, id: userId });
         const saveStarCodeList = await getStarCodePosts(userId);
         if (saveStarCodeList) setStarCodeList(saveStarCodeList);
-        const saveActiveTab = await getActiveTabByIdPosts(userId);
-        if (saveActiveTab.id === userId) setActiveTab(saveActiveTab);
-        else setActiveTab({ ...initialActiveTab, id: userId });
       };
       fetchData();
     } else {
@@ -272,8 +205,6 @@ export const Top = () => {
       setUserID(id);
       saveToCookie("user", id);
       setCourseParam({ ...initialCourseParam, id: id });
-      setTeacherParam({ ...initialTeacherParam, id: id });
-      setActiveTab({ ...initialActiveTab, id: id });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -312,30 +243,6 @@ export const Top = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseParam]);
 
-  useEffect(() => {
-    if (teacherParam.id === "") return;
-    addTeacherParamByIdPosts(teacherParam);
-    const fetchData = async () => {
-      try {
-        setTeacherLoading(true);
-        const teacherCount = await getTeacherCountPosts(teacherParam);
-        setTeacherCount(teacherCount);
-        const teacherInfo = await getTeacherGradesPosts(teacherParam);
-        setTeacherList(teacherInfo);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setTeacherLoading(false);
-      }
-    };
-    fetchData();
-  }, [teacherParam]);
-
-  useEffect(() => {
-    if (activeTab.id === "") return;
-    addActiveTabByIdPosts(activeTab);
-  }, [activeTab]);
-
   return (
     <div className="w-screen h-screen">
       <div
@@ -344,80 +251,46 @@ export const Top = () => {
           isFilter ? onFilterFalse() : void 0;
         }}
       >
-        <TitleBar
-          activeTab={activeTab.activeTab}
-          handleTabClick={handleTabClick}
-        />
-        {activeTab.activeTab === "授業検索" ? (
-          <div>
-            <SortColmuns
-              text={courseParam.sortBy}
-              onFilterClick={onFilterClick}
-              changeParamOfSortBy={changeParamOfSortBy}
-              changeParamOfFavorite={changeParamOfFavorite}
-              isFavorite={courseParam.favorite}
-            />
-            {courseLoading ? (
-              <Loading />
-            ) : (
-              <>
-                {courseInfoData ? (
-                  <CourseList
-                    courseList={courseInfoData}
-                    handleStarButtonClick={handleStarButtonClick}
-                    isStarCode={isStarCode}
-                    isFilter={isFilter}
-                  />
-                ) : (
-                  <NoData />
-                )}
-              </>
-            )}
-            <MoreInfo
-              handleBackClick={handleCourseBackClick}
-              handleNextClick={handleCourseNextClick}
-              isFirstData={
-                courseInfoData === null ||
-                courseParam.courseOffset === 0 ||
-                courseInfoData.length === 0
-              }
-              isLastData={
-                courseInfoData === null ||
-                courseParam.courseOffset + 30 >= courseCount?.course_count ||
-                courseInfoData.length === 0
-              }
-            />
-          </div>
-        ) : (
-          <div>
-            <TeacherColmuns
-              majorText={teacherParam.major}
-              changeParamOfMajor={teacherParamOfMajor}
-            />
-            {teacherLoading ? (
-              <Loading />
-            ) : (
-              <>
-                {teacherList ? (
-                  <TeacherList teacherList={teacherList} />
-                ) : (
-                  <NoData />
-                )}
-              </>
-            )}
-            <MoreInfo
-              handleBackClick={handleTeacherBackClick}
-              handleNextClick={handleTeacherNextClick}
-              isFirstData={
-                teacherList === null || teacherParam.teacherOffset === 0
-              }
-              isLastData={
-                teacherList === null ||
-                teacherParam.teacherOffset + 30 >= teacherCount?.teacher_count
-              }
-            />
-          </div>
-        )}
+        <TitleBar activeTab={"授業検索"} />
+        <div>
+          <SortColmuns
+            text={courseParam.sortBy}
+            onFilterClick={onFilterClick}
+            changeParamOfSortBy={changeParamOfSortBy}
+            changeParamOfFavorite={changeParamOfFavorite}
+            isFavorite={courseParam.favorite}
+          />
+          {courseLoading ? (
+            <Loading />
+          ) : (
+            <>
+              {courseInfoData ? (
+                <CourseList
+                  courseList={courseInfoData}
+                  handleStarButtonClick={handleStarButtonClick}
+                  isStarCode={isStarCode}
+                  isFilter={isFilter}
+                />
+              ) : (
+                <NoData />
+              )}
+            </>
+          )}
+          <MoreInfo
+            handleBackClick={handleCourseBackClick}
+            handleNextClick={handleCourseNextClick}
+            isFirstData={
+              courseInfoData === null ||
+              courseParam.courseOffset === 0 ||
+              courseInfoData.length === 0
+            }
+            isLastData={
+              courseInfoData === null ||
+              courseParam.courseOffset + 30 >= courseCount?.course_count ||
+              courseInfoData.length === 0
+            }
+          />
+        </div>
         <Footer />
       </div>
       <div>
