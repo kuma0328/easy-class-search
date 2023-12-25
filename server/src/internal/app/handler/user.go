@@ -59,18 +59,6 @@ type teacherParamResponse struct {
 	Offset int    `json:"teacherOffset"`
 }
 
-type activeTabResponse struct {
-	ID        string `json:"id"`
-	ActiveTab string `json:"activeTab"`
-}
-
-func newActiveTabResponse(a *domain.ActiveTab) *activeTabResponse {
-	return &activeTabResponse{
-		ID:        a.ID,
-		ActiveTab: a.ActiveTab,
-	}
-}
-
 func newTeacherParamResponse(t *domain.TeacherParam) *teacherParamResponse {
 	return &teacherParamResponse{
 		ID:     t.ID,
