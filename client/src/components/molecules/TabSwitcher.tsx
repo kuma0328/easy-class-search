@@ -9,6 +9,16 @@ export const TabSwitcher = ({ activeTab }: TabSwitcherProps) => {
   const teacherSearch = "先生検索";
   const navigate = useNavigate();
 
+  const handleCourseClick = () => {
+    if (activeTab === classSearch) return;
+    navigate("/");
+  };
+
+  const handleTeacherClick = () => {
+    if (activeTab === teacherSearch) return;
+    navigate("/teacher");
+  };
+
   return (
     <div>
       <div className="flex space-x-1">
@@ -16,7 +26,7 @@ export const TabSwitcher = ({ activeTab }: TabSwitcherProps) => {
           className={`rounded-lg border w-1/2 p-2 hover:bg-gray-100 text-gray-600 font-bold flex items-center justify-center ${
             activeTab === classSearch ? "bg-gray-200 text-gray-900" : "bg-white"
           }`}
-          onClick={() => navigate("/")}
+          onClick={handleCourseClick}
         >
           {classSearch}
         </button>
@@ -26,7 +36,7 @@ export const TabSwitcher = ({ activeTab }: TabSwitcherProps) => {
               ? "bg-gray-200 text-gray-900"
               : "bg-white"
           }`}
-          onClick={() => navigate("teacher")}
+          onClick={handleTeacherClick}
         >
           {teacherSearch}
         </button>
