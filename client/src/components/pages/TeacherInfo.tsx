@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  addStarCodePosts,
-  deleteStarCodePosts,
-  getCourseInfoByTeacherPosts,
-  getStarCodePosts,
-} from "src/api/post";
 import TCourse from "src/types/Course";
 import CourseList from "../organisms/CourseList";
 import NoData from "../atoms/NoData";
 import Loading from "../atoms/Loading";
 import { v4 as uuidv4 } from "uuid";
 import Header from "../molecules/Header";
+import { getCourseInfoByTeacher, getStarCode } from "src/api/get";
+import { deleteStarCode } from "src/api/delete";
+import { postStarCode } from "src/api/post";
+import Footer from "../molecules/Footer";
 export const TeacherInfo = () => {
   const { id } = useParams<{ id: string }>();
   const [courseData, setCourseData] = useState<TCourse[]>([]);
@@ -38,9 +36,9 @@ export const TeacherInfo = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const res = await getCourseInfoByTeacherPosts(id);
+        const res = await getCourseInfoByTeacher(id);
         setCourseData(res);
-        const saveStarCodeList = await getStarCodePosts(userId ? userId : "");
+        const saveStarCodeList = await getStarCode(userId ? userId : "");
         if (saveStarCodeList) setStarCodeList(saveStarCodeList);
       } catch (error) {
         console.log(error);
@@ -66,14 +64,14 @@ export const TeacherInfo = () => {
     setStarCodeList((prevList) => {
       if (isStarCode(clickCode)) {
         // clickCode が starCodeList に存在する場合は削除
-        deleteStarCodePosts({
+        deleteStarCode({
           id: userID,
           code: clickCode,
         });
         return prevList.filter((item) => item.code !== clickCode);
       } else {
         // clickCode が starCodeList に存在しない場合は追加
-        addStarCodePosts({ id: userID, code: clickCode });
+        postStarCode({ id: userID, code: clickCode });
         return [...prevList, { id: userID, code: clickCode }];
       }
     });
@@ -102,6 +100,7 @@ export const TeacherInfo = () => {
             </>
           )}
         </div>
+        <Footer />
       </div>
     </>
   );

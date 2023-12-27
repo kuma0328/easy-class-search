@@ -1,10 +1,4 @@
 import { useEffect, useState } from "react";
-import {
-  addTeacherParamByIdPosts,
-  getTeacherCountPosts,
-  getTeacherGradesPosts,
-  getTeacherParam,
-} from "src/api/post";
 import initialTeacherParam from "src/static/data/teacherParam";
 import TRadarChart from "src/types/RadarChart";
 import TTeacherCount from "src/types/TeacherCount";
@@ -17,6 +11,12 @@ import MoreInfo from "../molecules/MoreInfo";
 import TeacherList from "../organisms/TeacherList";
 import Footer from "../molecules/Footer";
 import TitleBar from "../organisms/TitleBar";
+import {
+  getTeacherCount,
+  getTeacherGrades,
+  getTeacherParam,
+} from "src/api/get";
+import { postTeacherParamById } from "src/api/post";
 export const Teacher = () => {
   // Cookie から情報を読み取る関数
   const readFromCookie = (key: string): string | null => {
@@ -89,13 +89,13 @@ export const Teacher = () => {
 
   useEffect(() => {
     if (teacherParam.id === "") return;
-    addTeacherParamByIdPosts(teacherParam);
+    postTeacherParamById(teacherParam);
     const fetchData = async () => {
       try {
         setTeacherLoading(true);
-        const teacherCount = await getTeacherCountPosts(teacherParam);
+        const teacherCount = await getTeacherCount(teacherParam);
         setTeacherCount(teacherCount);
-        const teacherInfo = await getTeacherGradesPosts(teacherParam);
+        const teacherInfo = await getTeacherGrades(teacherParam);
         setTeacherList(teacherInfo);
       } catch (error) {
         console.log(error);

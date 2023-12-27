@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"errors"
 
 	"github.com/kuma0328/easy-class-search/internal/app/domain"
 )
@@ -22,6 +23,9 @@ func (ci *courseInfoUsecase) GetCourseInfoListWithFliter(ctx context.Context, fi
 }
 
 func (ci *courseInfoUsecase) GetCoursesByTeacher(ctx context.Context, teacher string) ([]*domain.CourseInfo, error) {
+	if teacher == "" {
+		return nil, errors.New("teacher cannot be empty")
+	}
 	c, err := ci.courseInfoRepo.GetCoursesByTeacher(ctx, teacher)
 	return c, err
 }

@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"errors"
 
 	"github.com/kuma0328/easy-class-search/internal/app/domain"
 )
@@ -17,6 +18,10 @@ func NewCourseDetailUsecase(ci domain.CourseDetailRepository) domain.CourseDetai
 }
 
 func (cu *courseDetailUsecase) GetCourseDetailOfCode(ctx context.Context, code string) (domain.CourseDetail, error) {
+	if code == "" {
+		return domain.CourseDetail{}, errors.New("code can not be empty")
+	}
+
 	c, err := cu.courseDetailRepo.GetCourseDetailOfCode(ctx, code)
 	return c, err
 }

@@ -1,13 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {
-  addCourseParamByIdPosts,
-  addStarCodePosts,
-  deleteStarCodePosts,
-  getCourseCountPosts,
-  getCourseInfoPosts,
-  getCourseParamPosts,
-  getStarCodePosts,
-} from "src/api/post";
 import TCourseInfo from "src/types/Course";
 import CourseList from "../organisms/CourseList";
 import TitleBar from "../organisms/TitleBar";
@@ -22,6 +13,14 @@ import TCourseCount from "src/types/CourseCount";
 import NoData from "../atoms/NoData";
 import Loading from "../atoms/Loading";
 import { v4 as uuidv4 } from "uuid";
+import { deleteStarCode } from "src/api/delete";
+import { postCourseParamById, postStarCode } from "src/api/post";
+import {
+  getCourseCount,
+  getCourseInfo,
+  getCourseParam,
+  getStarCode,
+} from "src/api/get";
 
 export const Top = () => {
   // Cookie に情報を保存する関数
@@ -74,14 +73,14 @@ export const Top = () => {
     setStarCodeList((prevList) => {
       if (isStarCode(clickCode)) {
         // clickCode が starCodeList に存在する場合は削除
-        deleteStarCodePosts({
+        deleteStarCode({
           id: userID,
           code: clickCode,
         });
         return prevList.filter((item) => item.code !== clickCode);
       } else {
         // clickCode が starCodeList に存在しない場合は追加
-        addStarCodePosts({ id: userID, code: clickCode });
+        postStarCode({ id: userID, code: clickCode });
         return [...prevList, { id: userID, code: clickCode }];
       }
     });
@@ -193,10 +192,10 @@ export const Top = () => {
     if (userId) {
       setUserID(userId);
       const fetchData = async () => {
-        const saveCourseParam = await getCourseParamPosts(userId);
+        const saveCourseParam = await getCourseParam(userId);
         if (saveCourseParam.id === userId) setCourseParam(saveCourseParam);
         else setCourseParam({ ...initialCourseParam, id: userId });
-        const saveStarCodeList = await getStarCodePosts(userId);
+        const saveStarCodeList = await getStarCode(userId);
         if (saveStarCodeList) setStarCodeList(saveStarCodeList);
       };
       fetchData();
@@ -212,7 +211,7 @@ export const Top = () => {
   useEffect(() => {
     if (courseParam.id === "") return;
     const fetchData = async () => {
-      addCourseParamByIdPosts(courseParam);
+      postCourseParamById(courseParam);
 
       try {
         setCourseLoading(true);
@@ -228,9 +227,9 @@ export const Top = () => {
           class_format: courseParam.classFormat,
           code: starCodeList.map((item) => item.code),
         };
-        const courseCount = await getCourseCountPosts(param);
+        const courseCount = await getCourseCount(param);
         setCourseCount(courseCount);
-        const courseInfo = await getCourseInfoPosts(param);
+        const courseInfo = await getCourseInfo(param);
         setCourseInfoData(courseInfo);
       } catch (error) {
         console.log(error);

@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"errors"
 
 	"github.com/kuma0328/easy-class-search/internal/app/domain"
 )
@@ -17,14 +18,23 @@ func NewUserUsecase(ui domain.UserRepository) domain.UserRepository {
 }
 
 func (ui *userUsecase) GetStarCodeById(ctx context.Context, id string) ([]*domain.StarCode, error) {
+	if id == "" {
+		return nil, errors.New("id must not be empty")
+	}
 	u, err := ui.userRepo.GetStarCodeById(ctx, id)
 	return u, err
 }
 func (ui *userUsecase) GetCourseParamById(ctx context.Context, id string) (domain.CourseParam, error) {
+	if id == "" {
+		return domain.CourseParam{}, errors.New("id must not be empty")
+	}
 	u, err := ui.userRepo.GetCourseParamById(ctx, id)
 	return u, err
 }
 func (ui *userUsecase) GetTeacherParamById(ctx context.Context, id string) (domain.TeacherParam, error) {
+	if id == "" {
+		return domain.TeacherParam{}, errors.New("id must not be empty")
+	}
 	u, err := ui.userRepo.GetTeacherParamById(ctx, id)
 	return u, err
 }

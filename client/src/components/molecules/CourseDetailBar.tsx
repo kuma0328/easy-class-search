@@ -3,7 +3,6 @@ import React from "react";
 interface CourseDetailBarProps {
   code: string;
   title: string;
-  credit: number;
 }
 
 export const CourseDetailBar = ({ code, title }: CourseDetailBarProps) => {
