@@ -127,10 +127,15 @@ export const Teacher = () => {
         <MoreInfo
           handleBackClick={handleTeacherBackClick}
           handleNextClick={handleTeacherNextClick}
-          isFirstData={teacherList === null || teacherParam.teacherOffset === 0}
+          isFirstData={
+            teacherList === null ||
+            teacherParam.teacherOffset === 0 ||
+            teacherList.length === 0
+          }
           isLastData={
             teacherList === null ||
-            teacherParam.teacherOffset + 30 >= teacherCount?.teacher_count
+            teacherParam.teacherOffset + 30 >= teacherCount?.teacher_count ||
+            teacherList.length === 0
           }
         />
       </div>
