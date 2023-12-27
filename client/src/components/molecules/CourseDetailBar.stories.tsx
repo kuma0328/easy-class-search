@@ -14,6 +14,5 @@ export const Primary: Story = {
   args: {
     code: "1011-111",
     title: "雇用関係法",
-    credit: 2,
   },
 };
