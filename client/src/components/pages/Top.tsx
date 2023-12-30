@@ -14,38 +14,11 @@ import NoData from "../atoms/NoData";
 import Loading from "../atoms/Loading";
 import { v4 as uuidv4 } from "uuid";
 import { deleteStarCode } from "src/api/delete";
-import { postCourseParamById, postStarCode } from "src/api/post";
-import {
-  getCourseCount,
-  getCourseInfo,
-  getCourseParam,
-  getStarCode,
-} from "src/api/get";
+import { postStarCode } from "src/api/post";
+import { getCourseCount, getCourseInfo } from "src/api/get";
+import initialFavoriteCourseParam from "src/static/data/favoriteCourseParam";
 
 export const Top = () => {
-  // Cookie に情報を保存する関数
-  const saveToCookie = (key: string, value: string) => {
-    document.cookie = `${key}=${value}; expires=${new Date(
-      Date.now() + 365 * 24 * 60 * 60 * 1000
-    ).toUTCString()}; path=/`;
-  };
-  // Cookie から情報を読み取る関数
-  const readFromCookie = (key: string): string | null => {
-    try {
-      document.cookie = "SameSite=None; Secure";
-      const cookies = decodeURIComponent(document.cookie).split(";");
-      for (const cookie of cookies) {
-        const [cookieKey, cookieValue] = cookie.trim().split("=");
-        if (cookieKey === key) {
-          return cookieValue;
-        }
-      }
-      return null;
-    } catch (error) {
-      return null;
-    }
-  };
-
   const [courseParam, setCourseParam] = useState<TCourseParam>(
     () => initialCourseParam
   );
@@ -59,7 +32,7 @@ export const Top = () => {
     return starCodeList.some((item) => item.code === code);
   };
 
-  const [courseLoading, setCourseLoading] = useState(true);
+  const [courseLoading, setCourseLoading] = useState(false);
 
   const handleStarButtonClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -84,10 +57,12 @@ export const Top = () => {
         return [...prevList, { id: userID, code: clickCode }];
       }
     });
+    localStorage.setItem("starCodeList", JSON.stringify(starCodeList));
   };
 
   const courseParamReset = () => {
     setCourseParam({ ...initialCourseParam, id: userID });
+    setCourseLoading(true);
   };
   const changeParamOfMajor = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCourseParam((prevParam) => ({
@@ -95,6 +70,7 @@ export const Top = () => {
       major: event.target.value,
       courseOffset: 0,
     }));
+    setCourseLoading(true);
   };
   const changeParamOfSeason = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCourseParam((prevParam) => ({
@@ -102,6 +78,7 @@ export const Top = () => {
       season: event.target.value,
       courseOffset: 0,
     }));
+    setCourseLoading(true);
   };
   const changeParamOfPlace = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCourseParam((prevParam) => ({
@@ -109,6 +86,7 @@ export const Top = () => {
       place: event.target.value,
       courseOffset: 0,
     }));
+    setCourseLoading(true);
   };
   const changeParamOfYear = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCourseParam((prevParam) => ({
@@ -116,6 +94,7 @@ export const Top = () => {
       year: parseInt(event.target.value, 10),
       courseOffset: 0,
     }));
+    setCourseLoading(true);
   };
 
   const changeParamOfClassFormat = (
@@ -126,6 +105,7 @@ export const Top = () => {
       classFormat: event.target.value,
       courseOffset: 0,
     }));
+    setCourseLoading(true);
   };
   const changeParamOfFavorite = () => {
     if (isFilter) {
@@ -136,6 +116,7 @@ export const Top = () => {
       favorite: !prevParam.favorite,
       courseOffset: 0,
     }));
+    setCourseLoading(true);
   };
 
   const addTime = (newTime: string) => {
@@ -144,6 +125,7 @@ export const Top = () => {
       time: [...prevParam.time, newTime], // 新しい要素を追加
       courseOffset: 0,
     }));
+    setCourseLoading(true);
   };
   const removeTime = (timeToRemove: string) => {
     setCourseParam((prevParam) => ({
@@ -151,6 +133,7 @@ export const Top = () => {
       time: prevParam.time.filter((time) => time !== timeToRemove), // 該当する要素を削除
       courseOffset: 0,
     }));
+    setCourseLoading(true);
   };
   const changeParamOfSortBy = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCourseParam((prevParam) => ({
@@ -158,6 +141,7 @@ export const Top = () => {
       sortBy: event.target.value,
       courseOffset: 0,
     }));
+    setCourseLoading(true);
   };
 
   const onFilterClick = () => {
@@ -175,6 +159,7 @@ export const Top = () => {
       ...prevParam,
       courseOffset: prevParam.courseOffset - 30,
     }));
+    setCourseLoading(true);
   };
 
   const handleCourseNextClick = () => {
@@ -185,34 +170,61 @@ export const Top = () => {
       ...prevParam,
       courseOffset: prevParam.courseOffset + 30,
     }));
+    setCourseLoading(true);
   };
 
   useEffect(() => {
-    const userId = readFromCookie("user");
-    if (userId) {
-      setUserID(userId);
-      const fetchData = async () => {
-        const saveCourseParam = await getCourseParam(userId);
-        if (saveCourseParam.id === userId) setCourseParam(saveCourseParam);
-        else setCourseParam({ ...initialCourseParam, id: userId });
-        const saveStarCodeList = await getStarCode(userId);
-        if (saveStarCodeList) setStarCodeList(saveStarCodeList);
-      };
-      fetchData();
-    } else {
-      const id = uuidv4();
-      setUserID(id);
-      saveToCookie("user", id);
-      setCourseParam({ ...initialCourseParam, id: id });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const fetchData = async () => {
+      const cacheCourseInfo = localStorage.getItem("courseData");
+      if (cacheCourseInfo) {
+        setCourseInfoData(JSON.parse(cacheCourseInfo));
+      } else {
+        setCourseLoading(true);
+        const courseInfo = await getCourseInfo(initialFavoriteCourseParam);
+        setCourseInfoData(courseInfo);
+        localStorage.setItem("courseData", JSON.stringify(courseInfo));
+        setCourseLoading(false);
+      }
+
+      const cacheCourseParam = localStorage.getItem("courseParam");
+      if (cacheCourseParam) {
+        setCourseParam(JSON.parse(cacheCourseParam));
+      } else {
+        setCourseParam(initialCourseParam);
+        localStorage.setItem("courseParam", JSON.stringify(initialCourseParam));
+      }
+
+      const cacheCourseCount = localStorage.getItem("courseCount");
+      if (cacheCourseCount) {
+        setCourseCount(JSON.parse(cacheCourseCount));
+      } else {
+        setCourseLoading(true);
+        const courseCount = await getCourseCount(initialFavoriteCourseParam);
+        setCourseCount(courseCount);
+        localStorage.setItem("courseCount", JSON.stringify(courseCount));
+        setCourseLoading(false);
+      }
+
+      const cacheStarCodeList = localStorage.getItem("starCodeList");
+      if (cacheStarCodeList) {
+        setStarCodeList(JSON.parse(cacheStarCodeList));
+      }
+
+      const cacheUserID = localStorage.getItem("userID");
+      if (cacheUserID) {
+        setUserID(JSON.parse(cacheUserID));
+      } else {
+        const newID = uuidv4();
+        setUserID(newID);
+        localStorage.setItem("userID", JSON.stringify(newID));
+      }
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
-    if (courseParam.id === "") return;
     const fetchData = async () => {
-      postCourseParamById(courseParam);
-
       try {
         setCourseLoading(true);
         const param: TFavoriteCourseParam = {
@@ -229,18 +241,21 @@ export const Top = () => {
         };
         const courseCount = await getCourseCount(param);
         setCourseCount(courseCount);
+        localStorage.setItem("courseCount", JSON.stringify(courseCount));
         const courseInfo = await getCourseInfo(param);
         setCourseInfoData(courseInfo);
+        localStorage.setItem("courseData", JSON.stringify(courseInfo));
       } catch (error) {
         console.log(error);
       } finally {
         setCourseLoading(false);
       }
     };
-
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [courseParam]);
+    if (courseLoading) {
+      localStorage.setItem("courseParam", JSON.stringify(courseParam));
+      fetchData();
+    }
+  }, [courseLoading, courseParam, starCodeList]);
 
   return (
     <div className="w-screen h-screen">
