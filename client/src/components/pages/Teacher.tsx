@@ -11,7 +11,6 @@ import TeacherList from "../organisms/TeacherList";
 import Footer from "../molecules/Footer";
 import TitleBar from "../organisms/TitleBar";
 import { getTeacherCount, getTeacherGrades } from "src/api/get";
-import { postTeacherParamById } from "src/api/post";
 export const Teacher = () => {
   const [teacherList, setTeacherList] = useState<TRadarChart[]>([]);
   const [teacherParam, setTeacherParam] = useState<TTeacherParam>(
