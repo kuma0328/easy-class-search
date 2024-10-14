@@ -8,7 +8,7 @@
 <path d="M32 80L14.6795 50H49.3205L32 80Z" fill="#FAD5F4"/>
 </svg>
 
-現在はサーバーを閉じています
+https://d-class-search.vercel.app/
 
 ## localでの起動方法
 
